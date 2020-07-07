@@ -250,6 +250,15 @@ bool InspectorView::eventFilter(QObject *watched, QEvent *event)
 			// This isn't even its final form!
 			m_incomingObjects.push_back(object);
 			m_updateTrigger.start();
+			// If the object's parent is deleted before the object is processed,
+			// we won't be informed through other means, so listen for the
+			// destroyed signal temporarily.
+			connect(object, &QObject::destroyed, this, [this](QObject *object)
+				{
+					m_incomingObjects.erase(
+						std::remove(m_incomingObjects.begin(), m_incomingObjects.end(), object),
+						m_incomingObjects.end());
+				});
 		}
 		break;
 	}
@@ -274,6 +283,7 @@ void InspectorView::updateTree()
 {
 	for (const auto object : m_incomingObjects)
 	{
+		disconnect(object, &QObject::destroyed, this, nullptr);
 		// The object may already have been added to the tree by a parent
 		if (object->property(INSPECTOR_PROPERTY).isValid()) { continue; }
 		// If the parent isn't in the tree yet, let it add the object itself
