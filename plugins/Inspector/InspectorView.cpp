@@ -152,10 +152,33 @@ bool SelectorWidget::eventFilter(QObject *watched, QEvent *event)
 
 void SelectorWidget::mouseMoveEvent(QMouseEvent *event)
 {
-	setAttribute(Qt::WA_TransparentForMouseEvents, true);
-	m_currentTarget = parentWidget()->childAt(event->pos());
-	setAttribute(Qt::WA_TransparentForMouseEvents, false);
-	update();
+	auto point = event->pos();
+	auto target = static_cast<QWidget *>(nullptr);
+	// Find the deepest child widget containing the cursor location.
+	// Code loosely based on QWidgetPrivate::childAtRecursiveHelper.
+	auto nextWidget = parentWidget();
+	while (nextWidget != nullptr)
+	{
+		target = nextWidget;
+		// Find the topmost child widget containing the cursor location
+		nextWidget = nullptr;
+		const auto &children = target->children();
+		for (auto i = children.size() - 1; i >= 0; --i)
+		{
+			const auto child = qobject_cast<QWidget *>(children.at(i));
+			if (child && child != this && !child->isHidden() && child->geometry().contains(point))
+			{
+				point -= child->pos();
+				nextWidget = child;
+				break;
+			}
+		}
+	}
+	if (m_currentTarget != target)
+	{
+		m_currentTarget = target;
+		update();
+	}
 }
 
 void SelectorWidget::mouseReleaseEvent(QMouseEvent *event)
