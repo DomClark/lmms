@@ -174,7 +174,9 @@ void SelectorWidget::paintEvent(QPaintEvent *event)
 	{
 		const auto origin = mapFromGlobal(m_currentTarget->mapToGlobal({0, 0}));
 		const auto bounds = m_currentTarget->size();
-		painter.fillRect(QRect{origin, bounds}, m_selectionColor);
+		painter.setBrush(m_fillBrush);
+		painter.setPen(m_borderColor);
+		painter.drawRect(QRect{origin, bounds});
 	}
 }
 
