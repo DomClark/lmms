@@ -28,6 +28,7 @@
 #include <vector>
 
 #include <QAbstractTableModel>
+#include <QBrush>
 #include <QColor>
 #include <QTimer>
 #include <QTreeWidget>
@@ -58,13 +59,16 @@ private:
 class SelectorWidget : public QWidget
 {
 	Q_OBJECT
-	Q_PROPERTY(QColor selectionColor READ selectionColor WRITE setSelectionColor)
+	Q_PROPERTY(QBrush fillBrush READ fillBrush WRITE setFillBrush)
+	Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
 public:
 	explicit SelectorWidget(QWidget *parent);
 	~SelectorWidget();
 
-	const QColor &selectionColor() const { return m_selectionColor; }
-	void setSelectionColor(const QColor &color) { m_selectionColor = color; }
+	const QBrush &fillBrush() const { return m_fillBrush; }
+	void setFillBrush(const QBrush &brush) { m_fillBrush = brush; }
+	const QColor &borderColor() const { return m_borderColor; }
+	void setBorderColor(const QColor &color) { m_borderColor = color; }
 
 	bool eventFilter(QObject *watched, QEvent *event) override;
 
@@ -78,7 +82,8 @@ protected:
 	void showEvent(QShowEvent *event) override;
 
 private:
-	QColor m_selectionColor = {63, 127, 255, 63};
+	QBrush m_fillBrush = QColor{63, 127, 255, 63};
+	QColor m_borderColor = {63, 127, 255};
 	QWidget *m_currentTarget = nullptr;
 };
 
