@@ -1,0 +1,112 @@
+/*
+ * InspectorView.h - Dynamic Qt object inspector/editor for LMMS
+ *
+ * Copyright (c) 2020 Dominic Clark <mrdomclark/at/gmail.com>
+ *
+ * This file is part of LMMS - https://lmms.io
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program (see COPYING); if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301 USA.
+ *
+ */
+
+#ifndef INSPECTOR_VIEW_H
+#define INSPECTOR_VIEW_H
+
+#include <vector>
+
+#include <QAbstractTableModel>
+#include <QColor>
+#include <QTimer>
+#include <QTreeWidget>
+#include <QWidget>
+
+#include "ToolPluginView.h"
+
+class PropertyTableModel : public QAbstractTableModel
+{
+	Q_OBJECT
+public:
+	using QAbstractTableModel::QAbstractTableModel;
+
+	QObject *object() const { return m_object; }
+	void setObject(QObject *object);
+
+	int columnCount(const QModelIndex &parent = QModelIndex{}) const override;
+	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+	Qt::ItemFlags flags(const QModelIndex &index) const override;
+	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+	int rowCount(const QModelIndex &parent = QModelIndex{}) const override;
+	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+
+private:
+	QObject *m_object = nullptr;
+};
+
+class SelectorWidget : public QWidget
+{
+	Q_OBJECT
+	Q_PROPERTY(QColor selectionColor READ selectionColor WRITE setSelectionColor)
+public:
+	explicit SelectorWidget(QWidget *parent);
+	~SelectorWidget();
+
+	const QColor &selectionColor() const { return m_selectionColor; }
+	void setSelectionColor(const QColor &color) { m_selectionColor = color; }
+
+	bool eventFilter(QObject *watched, QEvent *event) override;
+
+signals:
+	void objectSelected(QObject *object);
+
+protected:
+	void mouseMoveEvent(QMouseEvent *event) override;
+	void mouseReleaseEvent(QMouseEvent *event) override;
+	void paintEvent(QPaintEvent *event) override;
+	void showEvent(QShowEvent *event) override;
+
+private:
+	QColor m_selectionColor = {63, 127, 255, 63};
+	QWidget *m_currentTarget = nullptr;
+};
+
+class InspectorView : public ToolPluginView
+{
+	Q_OBJECT
+public:
+	explicit InspectorView(ToolPlugin *plugin);
+	~InspectorView() override;
+
+	bool eventFilter(QObject *watched, QEvent *event) override;
+
+private slots:
+	void updateTree();
+	void beginSelection();
+	void selectionChanged();
+	void objectSelected(QObject *object);
+
+private:
+	void addObject(QObject *object);
+	void removeObject(QObject *object);
+	QTreeWidgetItem *createTreeWidgetItemForObject(QObject *object);
+
+	std::vector<QObject *> m_incomingObjects;
+	QTimer m_updateTrigger;
+	QTreeWidget *m_tree;
+	PropertyTableModel *m_propertyModel;
+	SelectorWidget *m_selector;
+};
+
+#endif // INSPECTOR_VIEW_H
