@@ -264,7 +264,10 @@ InspectorView::InspectorView(ToolPlugin *plugin) :
 	layout->addWidget(splitter, 1);
 	const auto root = gui->mainWindow();
 	m_tree->addTopLevelItem(createTreeWidgetItemForObject(root));
-	for(const auto child : root->children()) { addObject(child); }
+	for (const auto child : root->children())
+	{
+		if (child->isWidgetType()) { addObject(child); }
+	}
 	QCoreApplication::instance()->installEventFilter(this);
 	hide();
 	if (parentWidget())
