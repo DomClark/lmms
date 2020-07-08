@@ -65,6 +65,8 @@ public:
 	explicit SelectorWidget(QWidget *parent);
 	~SelectorWidget();
 
+	QObject *target() const { return m_currentTarget; }
+
 	const QBrush &fillBrush() const { return m_fillBrush; }
 	void setFillBrush(const QBrush &brush) { m_fillBrush = brush; }
 	const QColor &borderColor() const { return m_borderColor; }
@@ -75,16 +77,20 @@ public:
 signals:
 	void objectSelected(QObject *object);
 
+public slots:
+	void beginSelection();
+	void highlightObject(QObject *object);
+
 protected:
 	void mouseMoveEvent(QMouseEvent *event) override;
 	void mouseReleaseEvent(QMouseEvent *event) override;
 	void paintEvent(QPaintEvent *event) override;
-	void showEvent(QShowEvent *event) override;
 
 private:
 	QBrush m_fillBrush = QColor{63, 127, 255, 63};
 	QColor m_borderColor = {63, 127, 255};
 	QWidget *m_currentTarget = nullptr;
+	QTimer m_highlightTimer;
 };
 
 class InspectorView : public ToolPluginView
@@ -98,7 +104,6 @@ public:
 
 private slots:
 	void updateTree();
-	void beginSelection();
 	void selectionChanged();
 	void objectSelected(QObject *object);
 
