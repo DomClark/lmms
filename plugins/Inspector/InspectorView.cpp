@@ -127,6 +127,9 @@ bool PropertyTableModel::setData(const QModelIndex &index, const QVariant &value
 SelectorWidget::SelectorWidget(QWidget *parent) :
 	QWidget{parent}
 {
+	m_highlightTimer.setInterval(500);
+	m_highlightTimer.setSingleShot(true);
+	connect(&m_highlightTimer, &QTimer::timeout, this, &QWidget::hide);
 	move(0, 0);
 	setFixedSize(parentWidget()->size());
 	setMouseTracking(true);
@@ -148,6 +151,33 @@ bool SelectorWidget::eventFilter(QObject *watched, QEvent *event)
 		break;
 	}
 	return false;
+}
+
+void SelectorWidget::beginSelection()
+{
+	m_currentTarget = nullptr;
+	setAttribute(Qt::WA_TransparentForMouseEvents, false);
+	m_highlightTimer.stop();
+	show();
+	raise();
+	update();
+}
+
+void SelectorWidget::highlightObject(QObject *object)
+{
+	m_currentTarget = qobject_cast<QWidget *>(object);
+	if (m_currentTarget && m_currentTarget->isVisible())
+	{
+		setAttribute(Qt::WA_TransparentForMouseEvents, true);
+		m_highlightTimer.start();
+		show();
+		raise();
+		update();
+	}
+	else
+	{
+		hide();
+	}
 }
 
 void SelectorWidget::mouseMoveEvent(QMouseEvent *event)
@@ -203,12 +233,6 @@ void SelectorWidget::paintEvent(QPaintEvent *event)
 	}
 }
 
-void SelectorWidget::showEvent(QShowEvent *event)
-{
-	m_currentTarget = nullptr;
-	raise();
-}
-
 InspectorView::InspectorView(ToolPlugin *plugin) :
 	ToolPluginView{plugin}
 {
@@ -221,12 +245,16 @@ InspectorView::InspectorView(ToolPlugin *plugin) :
 	layout->setSpacing(0);
 	layout->setMargin(0);
 	const auto toolbar = new QToolBar{};
-	toolbar->addAction(embed::getIconPixmap("zoom"), tr("Inspect"), this, &InspectorView::beginSelection);
+	toolbar->addAction(embed::getIconPixmap("zoom"), tr("Inspect"), m_selector, &SelectorWidget::beginSelection);
 	layout->addWidget(toolbar);
 	const auto splitter = new QSplitter{};
 	m_tree = new QTreeWidget{};
 	m_tree->setHeaderHidden(true);
 	connect(m_tree, &QTreeWidget::itemSelectionChanged, this, &InspectorView::selectionChanged);
+	connect(m_tree, &QAbstractItemView::clicked, this, [this](const QModelIndex &index)
+		{
+			m_selector->highlightObject(static_cast<QObject *>(index.data(OBJECT_POINTER_ROLE).value<void *>()));
+		});
 	splitter->addWidget(m_tree);
 	const auto table = new QTableView{};
 	table->horizontalHeader()->setStretchLastSection(true);
@@ -318,11 +346,6 @@ void InspectorView::updateTree()
 	m_incomingObjects.clear();
 }
 
-void InspectorView::beginSelection()
-{
-	m_selector->show();
-}
-
 void InspectorView::selectionChanged()
 {
 	const auto items = m_tree->selectedItems();
@@ -393,6 +416,7 @@ void InspectorView::removeObject(QObject *object)
 		const auto object = static_cast<QObject *>(
 			item->data(0, OBJECT_POINTER_ROLE).value<void *>());
 		if (m_propertyModel->object() == object) { m_propertyModel->setObject(nullptr); }
+		if (m_selector->target() == object) { m_selector->highlightObject(nullptr); }
 	}
 
 	delete item;
