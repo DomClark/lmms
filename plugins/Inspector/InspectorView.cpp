@@ -28,6 +28,7 @@
 #include <iterator>
 
 #include <QChildEvent>
+#include <QComboBox>
 #include <QCoreApplication>
 #include <QDebug>
 #include <QEvent>
@@ -46,8 +47,56 @@
 #include "GuiApplication.h"
 #include "MainWindow.h"
 
+Q_DECLARE_METATYPE(QMetaProperty)
+
 constexpr const char *INSPECTOR_PROPERTY = "_lmms_inspector_treeitem";
 constexpr int OBJECT_POINTER_ROLE = Qt::UserRole;
+constexpr int PROPERTY_ROLE = Qt::UserRole;
+
+QWidget *PropertyItemDelegate::createEditor(QWidget *parent,
+	const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+	const auto property = index.data(PROPERTY_ROLE).value<QMetaProperty>();
+	if (property.isEnumType() && !property.isFlagType())
+	{
+		const auto enumerator = property.enumerator();
+		const auto comboBox = new QComboBox{parent};
+		comboBox->setFrame(false);
+		comboBox->setSizePolicy(QSizePolicy::Ignored, comboBox->sizePolicy().verticalPolicy());
+		for (auto i = 0; i < enumerator.keyCount(); ++i)
+		{
+			comboBox->addItem(enumerator.key(i));
+		}
+		return comboBox;
+	}
+	return QStyledItemDelegate::createEditor(parent, option, index);
+}
+
+void PropertyItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+	const auto property = index.data(PROPERTY_ROLE).value<QMetaProperty>();
+	if (property.isEnumType() && !property.isFlagType())
+	{
+		const auto comboBox = static_cast<QComboBox *>(editor);
+		const auto value = property.enumerator().valueToKey(index.data(Qt::EditRole).toInt());
+		comboBox->setCurrentText(value);
+		return;
+	}
+	QStyledItemDelegate::setEditorData(editor, index);
+}
+
+void PropertyItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+{
+	const auto property = index.data(PROPERTY_ROLE).value<QMetaProperty>();
+	if (property.isEnumType() && !property.isFlagType())
+	{
+		const auto comboBox = static_cast<QComboBox *>(editor);
+		const auto value = property.enumerator().keyToValue(comboBox->currentText().toUtf8().data());
+		model->setData(index, value, Qt::EditRole);
+		return;
+	}
+	QStyledItemDelegate::setModelData(editor, model, index);
+}
 
 void PropertyTableModel::setObject(QObject *object)
 {
@@ -67,15 +116,42 @@ int PropertyTableModel::columnCount(const QModelIndex &parent) const
 
 QVariant PropertyTableModel::data(const QModelIndex &index, int role) const
 {
-	if (role == Qt::DisplayRole || role == Qt::EditRole)
+	const auto property = m_object->metaObject()->property(index.row());
+	if (role == PROPERTY_ROLE) { return QVariant::fromValue(property); }
+	switch (index.column())
 	{
-		switch (index.column())
+	case 0:
+		if (role == Qt::DisplayRole) { return property.name(); }
+		break;
+	case 1:
+		switch (role)
 		{
-		case 0:
-			return m_object->metaObject()->property(index.row()).name();
-		case 1:
-			return m_object->metaObject()->property(index.row()).read(m_object);
+		case Qt::DisplayRole:
+			if (property.isEnumType() && !property.isFlagType())
+			{
+				return property.enumerator().valueToKey(property.read(m_object).toInt());
+			}
+			return property.read(m_object);
+		case Qt::EditRole:
+			return property.read(m_object);
+		case Qt::BackgroundRole:
+			if (property.userType() == QMetaType::QColor)
+			{
+				auto color = property.read(m_object).value<QColor>();
+				color.setAlpha(255);
+				return color;
+			}
+			break;
+		case Qt::ForegroundRole:
+			if (property.userType() == QMetaType::QColor)
+			{
+				const auto color = property.read(m_object).value<QColor>();
+				const auto isLight = 0.299 * color.redF() + 0.587 * color.greenF() + 0.114 * color.blueF() > 0.5;
+				return isLight ? QColorConstants::Black : QColorConstants::White;
+			}
+			break;
 		}
+		break;
 	}
 	return {};
 }
@@ -260,6 +336,7 @@ InspectorView::InspectorView(ToolPlugin *plugin) :
 	table->horizontalHeader()->setStretchLastSection(true);
 	m_propertyModel = new PropertyTableModel{table};
 	table->setModel(m_propertyModel);
+	table->setItemDelegateForColumn(1, new PropertyItemDelegate{table});
 	splitter->addWidget(table);
 	layout->addWidget(splitter, 1);
 	const auto root = gui->mainWindow();
