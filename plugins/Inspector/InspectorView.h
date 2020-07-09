@@ -30,11 +30,23 @@
 #include <QAbstractTableModel>
 #include <QBrush>
 #include <QColor>
+#include <QStyledItemDelegate>
 #include <QTimer>
 #include <QTreeWidget>
 #include <QWidget>
 
 #include "ToolPluginView.h"
+
+class PropertyItemDelegate : public QStyledItemDelegate
+{
+	Q_OBJECT
+public:
+	using QStyledItemDelegate::QStyledItemDelegate;
+
+	QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
+};
 
 class PropertyTableModel : public QAbstractTableModel
 {
