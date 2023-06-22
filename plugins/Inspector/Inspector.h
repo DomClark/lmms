@@ -27,16 +27,20 @@
 
 #include "ToolPlugin.h"
 
+namespace lmms {
+
 class Inspector : public ToolPlugin
 {
 	Q_OBJECT
 public:
 	explicit Inspector(Model *parent);
 
-	PluginView *instantiateView(QWidget *parent) override;
+	gui::PluginView *instantiateView(QWidget *parent) override;
 	QString nodeName() const override;
 	void saveSettings(QDomDocument &doc, QDomElement &elem) override;
 	void loadSettings(const QDomElement &elem) override;
 };
+
+}
 
 #endif // INSPECTOR_H

@@ -49,6 +49,8 @@
 
 Q_DECLARE_METATYPE(QMetaProperty)
 
+namespace lmms::gui {
+
 constexpr const char *INSPECTOR_PROPERTY = "_lmms_inspector_treeitem";
 constexpr int OBJECT_POINTER_ROLE = Qt::UserRole;
 constexpr int PROPERTY_ROLE = Qt::UserRole;
@@ -315,7 +317,7 @@ InspectorView::InspectorView(ToolPlugin *plugin) :
 	setBaseSize(480, 360);
 	m_updateTrigger.setSingleShot(true);
 	connect(&m_updateTrigger, &QTimer::timeout, this, &InspectorView::updateTree);
-	m_selector = new SelectorWidget{gui->mainWindow()};
+	m_selector = new SelectorWidget{getGUI()->mainWindow()};
 	connect(m_selector, &SelectorWidget::objectSelected, this, &InspectorView::objectSelected);
 	const auto layout = new QVBoxLayout{this};
 	layout->setSpacing(0);
@@ -339,7 +341,7 @@ InspectorView::InspectorView(ToolPlugin *plugin) :
 	table->setItemDelegateForColumn(1, new PropertyItemDelegate{table});
 	splitter->addWidget(table);
 	layout->addWidget(splitter, 1);
-	const auto root = gui->mainWindow();
+	const auto root = getGUI()->mainWindow();
 	m_tree->addTopLevelItem(createTreeWidgetItemForObject(root));
 	for (const auto child : root->children())
 	{
@@ -509,4 +511,6 @@ QTreeWidgetItem *InspectorView::createTreeWidgetItemForObject(QObject *object)
 	item->setData(0, OBJECT_POINTER_ROLE, QVariant::fromValue(static_cast<void *>(object)));
 	object->setProperty(INSPECTOR_PROPERTY, QVariant::fromValue(static_cast<void *>(item)));
 	return item;
+}
+
 }

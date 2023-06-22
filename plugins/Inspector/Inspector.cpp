@@ -29,11 +29,13 @@
 
 #include "InspectorView.h"
 
+namespace lmms {
+
 extern "C"
 {
 
 Plugin::Descriptor PLUGIN_EXPORT inspector_plugin_descriptor{
-	STRINGIFY(PLUGIN_NAME),
+	LMMS_STRINGIFY(PLUGIN_NAME),
 	"Inspector",
 	QT_TRANSLATE_NOOP("Inspector", "Inspect and modify the widget hierarchy"),
 	"Dominic Clark <mrdomclark/at/gmail.com>",
@@ -55,9 +57,9 @@ Inspector::Inspector(Model *parent) :
 	ToolPlugin{&inspector_plugin_descriptor, parent}
 { }
 
-PluginView *Inspector::instantiateView(QWidget *parent)
+gui::PluginView *Inspector::instantiateView(QWidget *parent)
 {
-	return new InspectorView{this};
+	return new gui::InspectorView{this};
 }
 
 QString Inspector::nodeName() const
@@ -70,3 +72,5 @@ void Inspector::saveSettings(QDomDocument &doc, QDomElement &elem)
 
 void Inspector::loadSettings(const QDomElement &elem)
 { }
+
+}

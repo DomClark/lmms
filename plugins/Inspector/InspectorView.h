@@ -37,6 +37,8 @@
 
 #include "ToolPluginView.h"
 
+namespace lmms::gui {
+
 class PropertyItemDelegate : public QStyledItemDelegate
 {
 	Q_OBJECT
@@ -130,5 +132,7 @@ private:
 	PropertyTableModel *m_propertyModel;
 	SelectorWidget *m_selector;
 };
+
+}
 
 #endif // INSPECTOR_VIEW_H
