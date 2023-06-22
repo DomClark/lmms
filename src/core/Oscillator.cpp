@@ -32,11 +32,14 @@
 
 #include "BufferManager.h"
 #include "Engine.h"
-#include "Mixer.h"
+#include "AudioEngine.h"
 #include "AutomatableModel.h"
 #include "fftw3.h"
 #include "fft_helpers.h"
 
+
+namespace lmms
+{
 
 
 void Oscillator::waveTableInit()
@@ -76,7 +79,7 @@ Oscillator::Oscillator(const IntModel *wave_shape_model,
 
 void Oscillator::update(sampleFrame* ab, const fpp_t frames, const ch_cnt_t chnl, bool modulator)
 {
-	if (m_freq >= Engine::mixer()->processingSampleRate() / 2)
+	if (m_freq >= Engine::audioEngine()->processingSampleRate() / 2)
 	{
 		BufferManager::clear(ab, frames);
 		return;
@@ -175,12 +178,12 @@ void Oscillator::generateFromFFT(int bands, sample_t* table)
 	//ifft
 	fftwf_execute(s_ifftPlan);
 	//normalize and copy to result buffer
-	normalize(s_sampleBuffer, table, OscillatorConstants::WAVETABLE_LENGTH, 2*OscillatorConstants::WAVETABLE_LENGTH + 1);
+	normalize(s_sampleBuffer.data(), table, OscillatorConstants::WAVETABLE_LENGTH, 2*OscillatorConstants::WAVETABLE_LENGTH + 1);
 }
 
 void Oscillator::generateAntiAliasUserWaveTable(SampleBuffer *sampleBuffer)
 {
-	if (sampleBuffer->m_userAntiAliasWaveTable == NULL) {return;}
+	if (sampleBuffer->m_userAntiAliasWaveTable == nullptr) {return;}
 
 	for (int i = 0; i < OscillatorConstants::WAVE_TABLES_PER_WAVEFORM_COUNT; ++i)
 	{
@@ -202,15 +205,15 @@ sample_t Oscillator::s_waveTables
 fftwf_plan Oscillator::s_fftPlan;
 fftwf_plan Oscillator::s_ifftPlan;
 fftwf_complex * Oscillator::s_specBuf;
-float Oscillator::s_sampleBuffer[OscillatorConstants::WAVETABLE_LENGTH];
+std::array<float, OscillatorConstants::WAVETABLE_LENGTH> Oscillator::s_sampleBuffer;
 
 
 
 void Oscillator::createFFTPlans()
 {
 	Oscillator::s_specBuf = ( fftwf_complex * ) fftwf_malloc( ( OscillatorConstants::WAVETABLE_LENGTH * 2 + 1 ) * sizeof( fftwf_complex ) );
-	Oscillator::s_fftPlan = fftwf_plan_dft_r2c_1d(OscillatorConstants::WAVETABLE_LENGTH, s_sampleBuffer, s_specBuf, FFTW_MEASURE );
-	Oscillator::s_ifftPlan = fftwf_plan_dft_c2r_1d(OscillatorConstants::WAVETABLE_LENGTH, s_specBuf, s_sampleBuffer, FFTW_MEASURE);
+	Oscillator::s_fftPlan = fftwf_plan_dft_r2c_1d(OscillatorConstants::WAVETABLE_LENGTH, s_sampleBuffer.data(), s_specBuf, FFTW_MEASURE );
+	Oscillator::s_ifftPlan = fftwf_plan_dft_c2r_1d(OscillatorConstants::WAVETABLE_LENGTH, s_specBuf, s_sampleBuffer.data(), FFTW_MEASURE);
 	// initialize s_specBuf content to zero, since the values are used in a condition inside generateFromFFT()
 	for (int i = 0; i < OscillatorConstants::WAVETABLE_LENGTH * 2 + 1; i++)
 	{
@@ -231,7 +234,7 @@ void Oscillator::generateWaveTables()
 	// Generate tables for simple shaped (constructed by summing sine waves).
 	// Start from the table that contains the least number of bands, and re-use each table in the following
 	// iteration, adding more bands in each step and avoiding repeated computation of earlier bands.
-	typedef void (*generator_t)(int, sample_t*, int);
+	using generator_t = void (*)(int, sample_t*, int);
 	auto simpleGen = [](WaveShapes shape, generator_t generator)
 	{
 		const int shapeID = shape - FirstWaveShapeTable;
@@ -553,7 +556,7 @@ inline bool Oscillator::syncOk( float _osc_coeff )
 float Oscillator::syncInit( sampleFrame * _ab, const fpp_t _frames,
 						const ch_cnt_t _chnl )
 {
-	if( m_subOsc != NULL )
+	if( m_subOsc != nullptr )
 	{
 		m_subOsc->update( _ab, _frames, _chnl );
 	}
@@ -673,8 +676,7 @@ void Oscillator::updateFM( sampleFrame * _ab, const fpp_t _frames,
 	m_subOsc->update( _ab, _frames, _chnl, true );
 	recalcPhase();
 	const float osc_coeff = m_freq * m_detuning_div_samplerate;
-	const float sampleRateCorrection = 44100.0f /
-				Engine::mixer()->processingSampleRate();
+	const float sampleRateCorrection = 44100.0f / Engine::audioEngine()->processingSampleRate();
 
 	for( fpp_t frame = 0; frame < _frames; ++frame )
 	{
@@ -690,7 +692,7 @@ void Oscillator::updateFM( sampleFrame * _ab, const fpp_t _frames,
 template<>
 inline sample_t Oscillator::getSample<Oscillator::SineWave>(const float sample)
 {
-	const float current_freq = m_freq * m_detuning_div_samplerate * Engine::mixer()->processingSampleRate();
+	const float current_freq = m_freq * m_detuning_div_samplerate * Engine::audioEngine()->processingSampleRate();
 
 	if (!m_useWaveTable || current_freq < OscillatorConstants::MAX_FREQ)
 	{
@@ -815,4 +817,4 @@ inline sample_t Oscillator::getSample<Oscillator::UserDefinedWave>(
 }
 
 
-
+} // namespace lmms

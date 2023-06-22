@@ -23,23 +23,23 @@
  *
  */
 
-#ifndef OSCILLATOR_H
-#define OSCILLATOR_H
+#ifndef LMMS_OSCILLATOR_H
+#define LMMS_OSCILLATOR_H
 
 #include <cassert>
 #include <fftw3.h>
-#include <math.h>
-
-#ifdef LMMS_HAVE_STDLIB_H
-#include <stdlib.h>
-#endif
+#include <cstdlib>
 
 #include "Engine.h"
 #include "lmms_constants.h"
 #include "lmmsconfig.h"
-#include "Mixer.h"
+#include "AudioEngine.h"
 #include "OscillatorConstants.h"
 #include "SampleBuffer.h"
+
+namespace lmms
+{
+
 
 class IntModel;
 
@@ -185,7 +185,8 @@ public:
 		control.f2 = control.f1 < OscillatorConstants::WAVETABLE_LENGTH - 1 ?
 					control.f1 + 1 :
 					0;
-		control.band = waveTableBandFromFreq(m_freq * m_detuning_div_samplerate * Engine::mixer()->processingSampleRate());
+		control.band = waveTableBandFromFreq(
+			m_freq * m_detuning_div_samplerate * Engine::audioEngine()->processingSampleRate());
 		return control;
 	}
 
@@ -254,7 +255,7 @@ private:
 	static fftwf_plan s_fftPlan;
 	static fftwf_plan s_ifftPlan;
 	static fftwf_complex * s_specBuf;
-	static float s_sampleBuffer[OscillatorConstants::WAVETABLE_LENGTH];
+	static std::array<float, OscillatorConstants::WAVETABLE_LENGTH> s_sampleBuffer;
 
 	static void generateSawWaveTable(int bands, sample_t* table, int firstBand = 1);
 	static void generateTriangleWaveTable(int bands, sample_t* table, int firstBand = 1);
@@ -310,4 +311,6 @@ private:
 } ;
 
 
-#endif
+} // namespace lmms
+
+#endif // LMMS_OSCILLATOR_H
