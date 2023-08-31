@@ -84,6 +84,7 @@ endfunction()
 #		[PREFIX <prefix>]              # The prefix for result variables - defaults to the package name
 # 	)
 function(_find_package_config_mode_with_fallback _fpcmwf_PACKAGE_NAME _fpcmwf_TARGET_NAME)
+	message("Entering fpcmwf for ${_fpcmwf_TARGET_NAME}")
 	# Parse remaining arguments
 	set(_options "")
 	set(_one_value_args "PKG_CONFIG" "PREFIX")
@@ -99,9 +100,26 @@ function(_find_package_config_mode_with_fallback _fpcmwf_PACKAGE_NAME _fpcmwf_TA
 	set(_include_var "${_fpcmwf_PREFIX}_INCLUDE_DIRS")
 
 	# Try config mode if possible
+	message("  Looking for ${_fpcmwf_PACKAGE_NAME} using config mode")
 	find_package("${_fpcmwf_PACKAGE_NAME}" CONFIG QUIET)
 
 	if(TARGET "${_fpcmwf_TARGET_NAME}")
+		message("  Found ${_fpcmwf_PACKAGE_NAME} using config mode")
+		if(DEFINED _fpcmwf_PKG_CONFIG)
+			find_package(PkgConfig QUIET)
+			if(PKG_CONFIG_FOUND)
+				set(_pkg_config_prefix "${_fpcmwf_PKG_CONFIG}_PKG")
+				pkg_check_modules("${_pkg_config_prefix}" QUIET "${_fpcmwf_PKG_CONFIG}")
+				if("${${_pkg_config_prefix}_FOUND}")
+					message("  There is also a pkg-config module ${_fpcmwf_PKG_CONFIG}")
+					message("  It returns the following values:")
+					set(_vars "FOUND" "LIBRARIES" "LINK_LIBRARIES" "LIBRARY DIRS" "LDFLAGS" "LDFLAGS_OTHER" "INCLUDE_DIRS" "CFLAGS" "CFLAGS_OTHER" "VERSION" "PREFIX" "INCLUDEDIR" "LIBDIR")
+					foreach(_var IN LISTS _vars)
+						message("    ${_pkg_config_prefix}_${_var}: ${${_pkg_config_prefix}_${_var}}")
+					endforeach()
+				endif()
+			endif()
+		endif()
 		# Extract package details from existing target
 		get_target_property("${_library_var}" "${_fpcmwf_TARGET_NAME}" LOCATION)
 		get_target_property("${_include_var}" "${_fpcmwf_TARGET_NAME}" INTERFACE_INCLUDE_DIRECTORIES)
@@ -112,6 +130,8 @@ function(_find_package_config_mode_with_fallback _fpcmwf_PACKAGE_NAME _fpcmwf_TA
 		# Check whether the dependencies exist
 		foreach(_dependency IN LISTS _fpcmwf_DEPENDS)
 			if(NOT TARGET "${_dependency}")
+				message("  Dependency ${_dependency} is missing, returning early")
+				message("Leaving fpcmwf for ${_fpcmwf_TARGET_NAME}")
 				return()
 			endif()
 		endforeach()
@@ -121,8 +141,15 @@ function(_find_package_config_mode_with_fallback _fpcmwf_PACKAGE_NAME _fpcmwf_TA
 		if(DEFINED _fpcmwf_PKG_CONFIG)
 			find_package(PkgConfig QUIET)
 			if(PKG_CONFIG_FOUND)
+				message("  Looking for ${_fpcmwf_PKG_CONFIG} using pkg-config")
 				pkg_check_modules("${_pkg_config_prefix}" QUIET "${_fpcmwf_PKG_CONFIG}")
 				if("${${_pkg_config_prefix}_FOUND}")
+					message("  Found ${_fpcmwf_PKG_CONFIG} using pkg-config")
+					message("  The following values were returned:")
+					set(_vars "FOUND" "LIBRARIES" "LINK_LIBRARIES" "LIBRARY DIRS" "LDFLAGS" "LDFLAGS_OTHER" "INCLUDE_DIRS" "CFLAGS" "CFLAGS_OTHER" "VERSION" "PREFIX" "INCLUDEDIR" "LIBDIR")
+					foreach(_var IN LISTS _vars)
+						message("    ${_pkg_config_prefix}_${_var}: ${${_pkg_config_prefix}_${_var}}")
+					endforeach()
 					set("${_version_var}" "${${_pkg_config_prefix}_VERSION}")
 				endif()
 			endif()
@@ -141,6 +168,7 @@ function(_find_package_config_mode_with_fallback _fpcmwf_PACKAGE_NAME _fpcmwf_TA
 
 		# Create an imported target if we succeeded in finding the package
 		if(${_library_var} AND ${_include_var})
+			message("  Adding imported target ${_fpcmwf_TARGET_NAME}")
 			add_library("${_fpcmwf_TARGET_NAME}" UNKNOWN IMPORTED)
 			set_target_properties("${_fpcmwf_TARGET_NAME}" PROPERTIES
 				IMPORTED_LOCATION "${${_library_var}}"
@@ -160,6 +188,11 @@ function(_find_package_config_mode_with_fallback _fpcmwf_PACKAGE_NAME _fpcmwf_TA
 	endif()
 	set("${_library_var}" "${${_library_var}}" PARENT_SCOPE)
 	set("${_include_var}" "${${_include_var}}" PARENT_SCOPE)
+	message("  Return values:")
+	message("    ${_version_var}: ${${_version_var}}")
+	message("    ${_library_var}: ${${_library_var}}")
+	message("    ${_include_var}: ${${_include_var}}")
+	message("Leaving fpcmwf for ${_fpcmwf_TARGET_NAME}")
 endfunction()
 
 # Given a library in vcpkg, find appropriate debug and release versions. If only
