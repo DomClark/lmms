@@ -22,6 +22,8 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
+      - name: Set up tmate session
+        uses: mxschmitt/action-tmate@53a5c23a925969671a6bb98ea70a4f650928ef93
       - name: Cache ccache data
         uses: actions/cache@v3
         with:
@@ -36,8 +38,6 @@ jobs:
                        libsamplerate jack sdl libgig libsoundio lilv lv2 stk \
                        fluid-synth portaudio fltk qt@5 carla
           npm install --location=global appdmg
-      - name: Set up tmate session
-        uses: mxschmitt/action-tmate@53a5c23a925969671a6bb98ea70a4f650928ef93
       - name: Configure
         run: |
           mkdir build
