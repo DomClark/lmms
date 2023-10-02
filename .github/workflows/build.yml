@@ -238,7 +238,8 @@ jobs:
             -B build `
             -G Ninja `
             --toolchain C:/vcpkg/scripts/buildsystems/vcpkg.cmake `
-            -DCMAKE_BUILD_TYPE=RelWithDebInfo
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo `
+            -DUSE_WERROR=ON
       - name: Build
         run: cmake --build build
       - name: Build tests

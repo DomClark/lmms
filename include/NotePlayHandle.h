@@ -77,6 +77,7 @@ public:
 	{
 		return p;
 	}
+	void operator delete(void*, void*) noexcept { }
 
 	void setVolume( volume_t volume ) override;
 	void setPanning( panning_t panning ) override;

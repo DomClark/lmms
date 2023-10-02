@@ -779,15 +779,15 @@ void OpulenzInstrumentView::updateKnobHints()
 	// Envelope times in ms: t[0] = 0, t[n] = ( 1<<n ) * X, X = 0.11597 for A, 0.6311 for D/R
 	// Here some rounding has been applied.
 	const auto attack_times = std::array<float, 16>{
-		0.0, 0.2, 0.4, 0.9, 1.8, 3.7, 7.4,
-		15.0, 30.0, 60.0, 120.0, 240.0, 480.0,
-		950.0, 1900.0, 3800.0
+		0.0f, 0.2f, 0.4f, 0.9f, 1.8f, 3.7f, 7.4f,
+		15.0f, 30.0f, 60.0f, 120.0f, 240.0f, 480.0f,
+		950.0f, 1900.0f, 3800.0f
 	};
 
 	const auto dr_times = std::array<float, 16>{
-		0.0, 1.2, 2.5, 5.0, 10.0, 20.0, 40.0,
-		80.0, 160.0, 320.0, 640.0, 1300.0, 2600.0,
-		5200.0, 10000.0, 20000.0
+		0.0f, 1.2f, 2.5f, 5.0f, 10.0f, 20.0f, 40.0f,
+		80.0f, 160.0f, 320.0f, 640.0f, 1300.0f, 2600.0f,
+		5200.0f, 10000.0f, 20000.0f
 	};
 
 	const auto fmultipliers = std::array<int, 16>{

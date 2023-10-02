@@ -5,21 +5,26 @@ BUILD_PLUGIN(ladspaeffect LadspaEffect.cpp LadspaControls.cpp LadspaControlDialo
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/ladspa")
 
 IF(LMMS_HAVE_CAPS)
-ADD_SUBDIRECTORY(caps)
+    add_subdirectory(caps)
+    set_property(DIRECTORY caps PROPERTY LMMS_THIRD_PARTY TRUE)
 ENDIF()
 
 IF(LMMS_HAVE_TAP)
-ADD_SUBDIRECTORY(tap)
+    add_subdirectory(tap)
+    set_property(DIRECTORY tap PROPERTY LMMS_THIRD_PARTY TRUE)
 ENDIF()
 
 IF(LMMS_HAVE_SWH)
-ADD_SUBDIRECTORY(swh)
+    add_subdirectory(swh)
+    set_property(DIRECTORY swh PROPERTY LMMS_THIRD_PARTY TRUE)
 ENDIF()
 
 IF(LMMS_HAVE_CMT)
-ADD_SUBDIRECTORY(cmt)
+    add_subdirectory(cmt)
+    set_property(DIRECTORY cmt PROPERTY LMMS_THIRD_PARTY TRUE)
 ENDIF()
 
 IF(LMMS_HAVE_CALF)
-ADD_SUBDIRECTORY(calf)
+    add_subdirectory(calf)
+    set_property(DIRECTORY calf PROPERTY LMMS_THIRD_PARTY TRUE)
 ENDIF()

@@ -593,9 +593,9 @@ void EqHandle::wheelEvent( QGraphicsSceneWheelEvent *wevent )
 	{
 		m_resonance = m_resonance + ( numSteps );
 
-		if( m_resonance < 0.1 )
+		if( m_resonance < 0.1f )
 		{
-			m_resonance = 0.1;
+			m_resonance = 0.1f;
 		}
 
 		if( m_resonance > highestBandwich )

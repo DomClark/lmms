@@ -477,7 +477,6 @@ ENDIF(NOT LMMS_HAVE_ALSA)
 IF(WANT_JACK)
 	IF(WANT_WEAKJACK)
 		SET(LMMS_HAVE_WEAKJACK TRUE)
-		SET(WEAKJACK_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/src/3rdparty/weakjack/weakjack)
 		SET(JACK_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/src/3rdparty/jack2/common)
 		SET(STATUS_JACK "OK (weak linking enabled)")
 		# use dlsym instead
@@ -601,27 +600,68 @@ ENDIF(WANT_DEBUG_FPE)
 # check for libsamplerate
 FIND_PACKAGE(Samplerate 0.1.8 MODULE REQUIRED)
 
-# set compiler flags
-IF(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-	SET(WERROR_FLAGS "-Wall -Werror=unused-function -Wno-sign-compare -Wno-strict-overflow")
-	OPTION(USE_WERROR "Add -werror to the build flags. Stops the build on warnings" OFF)
-	IF(${USE_WERROR})
-		SET(WERROR_FLAGS "${WERROR_FLAGS} -Werror")
-	ENDIF()
+# Define a target property to flag code as third-party
+define_property(TARGET
+	PROPERTY LMMS_THIRD_PARTY
+	INHERITED
+	BRIEF_DOCS "Is this a third-party target?"
+	FULL_DOCS "Specifies whether a target is third-party code."
+		"Is inherited, so can be set on an entire directory to apply to all targets within."
+		"Can be checked to exclude third-party code from particular options, such as WERROR."
+)
+set(LMMS_THIRD_PARTY_GENEX "$<BOOL:$<TARGET_PROPERTY:LMMS_THIRD_PARTY>>")
+set(LMMS_FIRST_PARTY_GENEX "$<NOT:${LMMS_THIRD_PARTY_GENEX}>")
+
+# Add warning and error flags
+option(USE_WERROR "Treat compiler warnings as errors" OFF)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+	list(APPEND ERROR_FLAGS
+		"-Wall" # Enable most warnings by default
+		"-Werror=unused-function" # Unused static functions are an error
+		# TODO: Fix the code and remove the following:
+		"-Wno-sign-compare" # Permit comparisons between signed and unsigned integers
+		"-Wno-strict-overflow" # Permit optimisations assuming no signed overflow
+	)
+
+	if(USE_WERROR)
+		list(APPEND ERROR_FLAGS
+			"-Werror" # Treat warnings as errors
+		)
+	endif()
 
 	# Due to a regression in gcc-4.8.X, we need to disable array-bounds check
-	IF (CMAKE_COMPILER_IS_GNUCXX AND ((CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL "4.8.0") OR (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "4.8.0") OR LMMS_BUILD_WIN32))
-		SET(WERROR_FLAGS "${WERROR_FLAGS} -Wno-array-bounds -Wno-attributes")
-	ENDIF()
-ELSEIF(MSVC)
+	# TODO: Are these still needed?
+	if(CMAKE_COMPILER_IS_GNUCXX)
+		list(APPEND ERROR_FLAGS
+			"-Wno-array-bounds" # Permit out-of-bounds array access
+			"-Wno-attributes" # Permit unknown attributes
+		)
+	endif()
+elseif(MSVC)
 	# Remove any existing /W flags
-	STRING(REGEX REPLACE "/W[0-4]" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-	SET(WERROR_FLAGS "/W2")
-	IF(${USE_WERROR})
-		SET(WERROR_FLAGS "${WERROR_FLAGS} /WX")
-	ENDIF()
-ENDIF()
+	# TODO CMake 3.15: Remove these lines and rely on CMP0092 instead
+	string(REGEX REPLACE "/W[0-4]" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+	string(REGEX REPLACE "/W[0-4]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
+	list(APPEND ERROR_FLAGS
+		"/W2" # Enable some warnings by default
+		"/external:W0" # Don't emit warnings for third-party code
+		"/external:anglebrackets" # Consider headers included with angle brackets to be third-party
+		"/D_CRT_NONSTDC_NO_WARNINGS" # No, Microsoft, POSIX names are not deprecated
+		# Silence "class X needs to have DLL-interface to be used by clients of class Y" warnings.
+		# These aren't trivial to work around without redesigning a lot of interfaces,
+		# and don't pose a problem for us since we build all modules with the same compiler and options.
+		"/wd4251"
+	)
+
+	if(USE_WERROR)
+		list(APPEND ERROR_FLAGS
+			"/WX" # Treat warnings as errors
+		)
+	endif()
+endif()
+# Only add error flags to targets consisting of our own code
+add_compile_options("$<${LMMS_FIRST_PARTY_GENEX}:${ERROR_FLAGS}>")
 
 IF(NOT CMAKE_BUILD_TYPE)
 	message(STATUS "Setting build type to 'Release' as none was specified.")
@@ -631,8 +671,7 @@ IF(NOT CMAKE_BUILD_TYPE)
 		"MinSizeRel" "RelWithDebInfo")
 ENDIF()
 
-SET(CMAKE_C_FLAGS "${WERROR_FLAGS} ${CMAKE_C_FLAGS}")
-SET(CMAKE_CXX_FLAGS "${WERROR_FLAGS} ${CMAKE_CXX_FLAGS}")
+# TODO CMake 3.12: Use add_compile_defintions
 SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DLMMS_DEBUG")
 SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DLMMS_DEBUG")
 

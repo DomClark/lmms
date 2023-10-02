@@ -57,6 +57,8 @@ include_directories(
 ADD_DEFINITIONS(-DPLUGINVERSION)	# removes exit confirmation dialogs etc. in MasterUI.fl
 add_subdirectory(zynaddsubfx/src/Nio)
 add_subdirectory(zynaddsubfx/src/UI)
+set_property(DIRECTORY zynaddsubfx/src/Nio PROPERTY LMMS_THIRD_PARTY TRUE)
+set_property(DIRECTORY zynaddsubfx/src/UI PROPERTY LMMS_THIRD_PARTY TRUE)
 
 SET(zynaddsubfx_core_SRCS
     zynaddsubfx/src/DSP/AnalogFilter.cpp
@@ -108,6 +110,8 @@ SET(zynaddsubfx_core_SRCS
 )
 
 add_library(ZynAddSubFxCoreObjs OBJECT LocalZynAddSubFx.cpp ${zynaddsubfx_core_SRCS})
+set_target_properties(ZynAddSubFxCoreObjs PROPERTIES LMMS_THIRD_PARTY TRUE)
+
 add_library(ZynAddSubFxCore INTERFACE)
 target_sources(ZynAddSubFxCore INTERFACE
 	$<TARGET_OBJECTS:ZynAddSubFxCoreObjs>

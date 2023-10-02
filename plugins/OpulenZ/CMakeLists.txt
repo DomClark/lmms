@@ -7,14 +7,19 @@ ENDIF()
 
 INCLUDE_DIRECTORIES(adplug/src)
 
-BUILD_PLUGIN(opulenz
-	OpulenZ.cpp
-	OpulenZ.h
+add_library(adplug_opl_objs OBJECT
 	adplug/src/opl.h
 	adplug/src/fmopl.c
 	adplug/src/fmopl.h
 	adplug/src/temuopl.cpp
 	adplug/src/temuopl.h
+)
+set_target_properties(adplug_opl_objs PROPERTIES LMMS_THIRD_PARTY TRUE)
+
+build_plugin(opulenz
+	OpulenZ.cpp
+	OpulenZ.h
+	$<TARGET_OBJECTS:adplug_opl_objs>
 	MOCFILES OpulenZ.h
 	EMBEDDED_RESOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.png"
 )

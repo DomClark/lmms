@@ -63,8 +63,8 @@ InstrumentSoundShaping::InstrumentSoundShaping(
 	m_instrumentTrack( _instrument_track ),
 	m_filterEnabledModel( false, this ),
 	m_filterModel( this, tr( "Filter type" ) ),
-	m_filterCutModel( 14000.0, 1.0, 14000.0, 1.0, this, tr( "Cutoff frequency" ) ),
-	m_filterResModel( 0.5, BasicFilters<>::minQ(), 10.0, 0.01, this, tr( "Q/Resonance" ) )
+	m_filterCutModel( 14000.0f, 1.0f, 14000.0f, 1.0f, this, tr( "Cutoff frequency" ) ),
+	m_filterResModel( 0.5f, BasicFilters<>::minQ(), 10.0f, 0.01f, this, tr( "Q/Resonance" ) )
 {
 	for( int i = 0; i < NumTargets; ++i )
 	{

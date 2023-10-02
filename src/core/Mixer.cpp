@@ -43,7 +43,7 @@ namespace lmms
 MixerRoute::MixerRoute( MixerChannel * from, MixerChannel * to, float amount ) :
 	m_from( from ),
 	m_to( to ),
-	m_amount( amount, 0, 1, 0.001, nullptr,
+	m_amount( amount, 0, 1, 0.001f, nullptr,
 			tr( "Amount to send from channel %1 to channel %2" ).arg( m_from->m_channelIndex ).arg( m_to->m_channelIndex ) )
 {
 	//qDebug( "created: %d to %d", m_from->m_channelIndex, m_to->m_channelIndex );
@@ -67,7 +67,7 @@ MixerChannel::MixerChannel( int idx, Model * _parent ) :
 	m_buffer( new sampleFrame[Engine::audioEngine()->framesPerPeriod()] ),
 	m_muteModel( false, _parent ),
 	m_soloModel( false, _parent ),
-	m_volumeModel( 1.0, 0.0, 2.0, 0.001, _parent ),
+	m_volumeModel( 1.0f, 0.0f, 2.0f, 0.001f, _parent ),
 	m_name(),
 	m_lock(),
 	m_channelIndex( idx ),

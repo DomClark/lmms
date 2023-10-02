@@ -211,7 +211,7 @@ Lb302Filter3Pole::Lb302Filter3Pole(Lb302FilterKnobState *p_fs) :
 void Lb302Filter3Pole::recalc()
 {
 	// DO NOT CALL BASE CLASS
-	vcf_e0 = 0.000001;
+	vcf_e0 = 0.000001f;
 	vcf_e1 = 1.0;
 }
 
@@ -286,8 +286,8 @@ Lb302Synth::Lb302Synth( InstrumentTrack * _instrumentTrack ) :
 	accentToggle( false, this, tr( "Accent" ) ),
 	deadToggle( false, this, tr( "Dead" ) ),
 	db24Toggle( false, this, tr( "24dB/oct Filter" ) ),
-	vca_attack(1.0 - 0.96406088),
-	vca_decay(0.99897516),
+	vca_attack(1.0f - 0.96406088f),
+	vca_decay(0.99897516f),
 	vca_a0(0.5),
 	vca_a(0.),
 	vca_mode(VcaMode::NeverPlayed)

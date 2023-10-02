@@ -36,13 +36,13 @@
 
 // carla/source/includes
 #include "carlabase_export.h"
-#include "CarlaDefines.h"
+#include <CarlaDefines.h>
 #if CARLA_VERSION_HEX >= 0x010911
-    #include "CarlaNativePlugin.h"
+    #include <CarlaNativePlugin.h>
 #else
-    #include "CarlaBackend.h"
-    #include "CarlaNative.h"
-    #include "CarlaUtils.h"
+    #include <CarlaBackend.h>
+    #include <CarlaNative.h>
+    #include <CarlaUtils.h>
     CARLA_EXPORT
     const NativePluginDescriptor* carla_get_native_patchbay_plugin();
 
@@ -80,7 +80,7 @@ class CarlaParamFloatModel : public FloatModel
 {
 public:
 	CarlaParamFloatModel(Model * parent):
-		FloatModel(0.0, 0.0, 1.0, 0.001, parent, "Unused"),
+		FloatModel(0.0f, 0.0f, 1.0f, 0.001f, parent, "Unused"),
 		m_isOutput(false),
 		m_isEnabled(false)
 	{

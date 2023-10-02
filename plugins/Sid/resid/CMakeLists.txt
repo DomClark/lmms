@@ -1,3 +1,5 @@
+set_directory_properties(PROPERTIES LMMS_THIRD_PARTY TRUE)
+
 # These are the defaults
 set(RESID_INLINING 1)
 set(RESID_INLINE inline)

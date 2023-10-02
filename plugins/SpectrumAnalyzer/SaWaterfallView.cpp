@@ -220,7 +220,7 @@ std::vector<std::pair<float, std::string>> SaWaterfallView::makeTimeTics()
 
 	// set increment to about 30 pixels (but min. 0.1 s)
 	float increment = std::round(10 * limit / (m_displayHeight / 30)) / 10;
-	if (increment < 0.1) {increment = 0.1;}
+	if (increment < 0.1f) {increment = 0.1f;}
 
 	// NOTE: labels positions are rounded to match the (rounded) label value
 	for (i = 0; i <= limit; i += increment)
