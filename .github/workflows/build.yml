@@ -1,6 +1,14 @@
 ---
 name: build
-'on': [push, pull_request]
+'on':
+  push:
+  pull_request:
+  workflow_call:
+env:
+  build-type: ${{ github.event_name == 'workflow_call' && 'Release' || 'RelWithDebInfo' }}
+  is-release: ${{ github.event_name == 'workflow_call' }}
+  use-cache: ${{ github.event_name == 'workflow_call' && 'OFF' || 'ON' }}
+  use-werror: ${{ github.event_name == 'workflow_call' && 'OFF' || 'ON' }}
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -10,10 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     container: ghcr.io/lmms/linux.gcc:20.04
     env:
-      CMAKE_OPTS: >-
-        -DUSE_WERROR=ON
-        -DCMAKE_BUILD_TYPE=RelWithDebInfo
-        -DUSE_COMPILE_CACHE=ON
       CCACHE_MAXSIZE: 0
       CCACHE_NOCOMPRESS: 1
       MAKEFLAGS: -j2
@@ -26,6 +30,7 @@ jobs:
           fetch-depth: 0
           submodules: recursive
       - name: Cache ccache data
+        if: ${{ env.use-cache == 'ON' }}
         uses: actions/cache@v3
         with:
           key: ccache-${{ github.job }}-${{ github.ref }}-${{ github.run_id }}
@@ -40,7 +45,9 @@ jobs:
           cmake -S . \
                 -B build \
                 -DCMAKE_INSTALL_PREFIX=./install \
-                $CMAKE_OPTS
+                -DUSE_WERROR=${{ env.use-werror }} \
+                -DCMAKE_BUILD_TYPE=${{ env.build-type }} \
+                -DUSE_COMPILE_CACHE=${{ env.use-cache }}
       - name: Build
         run: cmake --build build
       - name: Run tests
@@ -57,6 +64,7 @@ jobs:
           name: linux
           path: build/lmms-*.AppImage
       - name: Trim ccache and print statistics
+        if: ${{ env.use-cache == 'ON' }}
         run: |
           ccache --cleanup
           echo "[ccache config]"
@@ -80,14 +88,11 @@ jobs:
     name: macos-${{ matrix.arch }}
     runs-on: ${{ matrix.os }}
     env:
-      CMAKE_OPTS: >-
-        -DUSE_WERROR=ON
-        -DCMAKE_BUILD_TYPE=RelWithDebInfo
-        -DUSE_COMPILE_CACHE=ON
       CCACHE_MAXSIZE: 0
       CCACHE_NOCOMPRESS: 1
       MAKEFLAGS: -j3
       DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+      use-werror: OFF
     steps:
       - name: Check out
         uses: actions/checkout@v3
@@ -105,6 +110,7 @@ jobs:
             homebrew-${{ matrix.arch }}-
           path: ~/Library/Caches/Homebrew/downloads
       - name: Cache ccache data
+        if: ${{ env.use-cache == 'ON' }}
         uses: actions/cache@v3
         with:
           key: "ccache-${{ github.job }}-${{ matrix.arch }}-${{ github.ref }}\
@@ -131,8 +137,9 @@ jobs:
                 -DCMAKE_INSTALL_PREFIX="../target" \
                 -DCMAKE_PREFIX_PATH="$(brew --prefix qt@5)" \
                 -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }} \
-                $CMAKE_OPTS \
-                -DUSE_WERROR=OFF
+                -DUSE_WERROR=${{ env.use-werror }} \
+                -DCMAKE_BUILD_TYPE=${{ env.build-type }} \
+                -DUSE_COMPILE_CACHE=${{ env.use-cache }}
       - name: Build
         run: cmake --build build
       - name: Run tests
@@ -149,6 +156,7 @@ jobs:
           name: macos-${{ matrix.arch }}
           path: build/lmms-*.dmg
       - name: Trim ccache and print statistics
+        if: ${{ env.use-cache == 'ON' }}
         run: |
           ccache --cleanup
           echo "[ccache config]"
@@ -175,10 +183,6 @@ jobs:
     runs-on: ubuntu-latest
     container: ghcr.io/lmms/linux.mingw:20.04
     env:
-      CMAKE_OPTS: >-
-        -DUSE_WERROR=ON
-        -DCMAKE_BUILD_TYPE=RelWithDebInfo
-        -DUSE_COMPILE_CACHE=ON
       CCACHE_MAXSIZE: 0
       CCACHE_NOCOMPRESS: 1
       MAKEFLAGS: -j2
@@ -197,6 +201,7 @@ jobs:
           fetch-depth: 0
           submodules: recursive
       - name: Cache ccache data
+        if: ${{ env.use-cache == 'ON' }}
         uses: actions/cache@v3
         with:
           key: "ccache-${{ github.job }}-${{ matrix.arch }}-${{ github.ref }}\
@@ -212,7 +217,9 @@ jobs:
                 -B build \
                 -DCMAKE_INSTALL_PREFIX=./install \
                 -DCMAKE_TOOLCHAIN_FILE="./cmake/toolchains/MinGW-W64-${{ matrix.arch }}.cmake" \
-                $CMAKE_OPTS
+                -DUSE_WERROR=${{ env.use-werror }} \
+                -DCMAKE_BUILD_TYPE=${{ env.build-type }} \
+                -DUSE_COMPILE_CACHE=${{ env.use-cache }}
       - name: Build
         run: cmake --build build
       - name: Package
@@ -223,6 +230,7 @@ jobs:
           name: mingw${{ matrix.arch }}
           path: build/lmms-*.exe
       - name: Trim ccache and print statistics
+        if: ${{ env.use-cache == 'ON' }}
         run: |
           ccache --cleanup
           echo "[ccache config]"
@@ -237,6 +245,7 @@ jobs:
       matrix:
         arch: ['x86', 'x64']
     name: msvc-${{ matrix.arch }}
+    if: ${{ github.event_name != 'workflow_call' }}
     runs-on: windows-2019
     env:
       CCACHE_MAXSIZE: 0
@@ -249,6 +258,7 @@ jobs:
           submodules: recursive
       - name: Cache vcpkg dependencies
         id: cache-deps
+        if: ${{ env.use-cache == 'ON' }}
         uses: actions/cache@v3
         with:
           key: vcpkg-${{ matrix.arch }}-${{ hashFiles('vcpkg.json') }}
@@ -256,6 +266,7 @@ jobs:
             vcpkg-${{ matrix.arch }}-
           path: build\vcpkg_installed
       - name: Cache ccache data
+        if: ${{ env.use-cache == 'ON' }}
         uses: actions/cache@v3
         with:
           key: "ccache-${{ github.job }}-${{ matrix.arch }}-${{ github.ref }}\
@@ -293,9 +304,9 @@ jobs:
             -B build `
             -G Ninja `
             --toolchain C:/vcpkg/scripts/buildsystems/vcpkg.cmake `
-            -DCMAKE_BUILD_TYPE=RelWithDebInfo `
-            -DUSE_COMPILE_CACHE=ON `
-            -DUSE_WERROR=ON `
+            -DCMAKE_BUILD_TYPE=${{ env.build-type }} `
+            -DUSE_COMPILE_CACHE=${{ env.use-cache }} `
+            -DUSE_WERROR=${{ env.use-werror }} `
             -DVCPKG_TARGET_TRIPLET="${{ matrix.arch }}-windows" `
             -DVCPKG_HOST_TRIPLET="${{ matrix.arch }}-windows" `
             -DVCPKG_MANIFEST_INSTALL="${{ env.should_install_manifest }}"
@@ -316,6 +327,7 @@ jobs:
           name: msvc-${{ matrix.arch }}
           path: build\lmms-*.exe
       - name: Trim ccache and print statistics
+        if: ${{ env.use-cache == 'ON' }}
         run: |
           ccache --cleanup
           echo "[ccache config]"
