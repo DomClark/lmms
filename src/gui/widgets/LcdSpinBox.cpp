@@ -64,9 +64,7 @@ void LcdSpinBox::update()
 	QWidget::update();
 }
 
-
-
-void LcdSpinBox::contextMenuEvent(QContextMenuEvent* event)
+void LcdSpinBox::contextMenuEvent(QContextMenuEvent*)
 {
 	CaptionMenu contextMenu(model()->displayName());
 	addDefaultActions(&contextMenu);

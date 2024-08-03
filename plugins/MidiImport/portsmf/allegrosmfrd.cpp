@@ -66,7 +66,7 @@ protected:
     double get_time();
     void update(int chan, int key, Alg_parameter_ptr param);
     void *Mf_malloc(size_t size) override { return malloc(size); }
-    void Mf_free(void *obj, size_t size) override { free(obj); }
+    void Mf_free(void *obj, size_t) override { free(obj); }
     /* Methods to be called while processing the MIDI file. */
     void Mf_starttrack() override;
     void Mf_endtrack() override;
@@ -180,8 +180,7 @@ void Alg_midifile_reader::Mf_error(const char *msg)
     Mf_error(const_cast<char*>(msg));
 }
 
-
-void Alg_midifile_reader::Mf_header(int format, int ntrks, int division)
+void Alg_midifile_reader::Mf_header(int format, int, int division)
 {
     if (format > 1) {
         char msg[80];
@@ -221,8 +220,7 @@ void Alg_midifile_reader::Mf_on(int chan, int key, int vel)
     meta_channel = -1;
 }
 
-
-void Alg_midifile_reader::Mf_off(int chan, int key, int vel)
+void Alg_midifile_reader::Mf_off(int chan, int key, int)
 {
     double time = get_time();
     Alg_note_list_ptr *p = &note_list;
@@ -336,14 +334,12 @@ void Alg_midifile_reader::Mf_sysex(int len, unsigned char *msg)
     binary_msg(len, msg, "sysexs");
 }
 
-
-void Alg_midifile_reader::Mf_arbitrary(int len, unsigned char *msg)
+void Alg_midifile_reader::Mf_arbitrary(int, unsigned char*)
 {
     Mf_error("arbitrary data ignored");
 }
 
-
-void Alg_midifile_reader::Mf_metamisc(int type, int len, unsigned char *msg)
+void Alg_midifile_reader::Mf_metamisc(int type, int, unsigned char*)
 {
     char text[128];
 //#pragma warning(disable: 4996) // text is long enough
@@ -352,8 +348,7 @@ void Alg_midifile_reader::Mf_metamisc(int type, int len, unsigned char *msg)
     Mf_error(text);
 }
 
-
-void Alg_midifile_reader::Mf_seqnum(int n)
+void Alg_midifile_reader::Mf_seqnum(int)
 {
     Mf_error("seqnum data ignored");
 }
@@ -380,8 +375,7 @@ void Alg_midifile_reader::Mf_smpte(int hours, int mins, int secs,
     // Mf_error("SMPTE data ignored");
 }
 
-
-void Alg_midifile_reader::Mf_timesig(int i1, int i2, int i3, int i4)
+void Alg_midifile_reader::Mf_timesig(int i1, int i2, int, int)
 {
     seq->set_time_sig(double(get_currtime()) / divisions, i1, 1 << i2);
 }

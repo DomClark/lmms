@@ -155,9 +155,7 @@ void Fader::mousePressEvent(QMouseEvent* mouseEvent)
 	}
 }
 
-
-
-void Fader::mouseDoubleClickEvent(QMouseEvent* mouseEvent)
+void Fader::mouseDoubleClickEvent(QMouseEvent*)
 {
 	bool ok;
 	// TODO: dbFS handling
@@ -268,19 +266,18 @@ void Fader::updateTextFloat()
 	s_textFloat->moveGlobal(this, QPoint(width() + 2, knobPosY() - s_textFloat->height() / 2));
 }
 
-
-void Fader::paintEvent(QPaintEvent* ev)
+void Fader::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 
 	// Draw the levels with peaks
-	paintLevels(ev, painter, !m_levelsDisplayedInDBFS);
+	paintLevels(painter, !m_levelsDisplayedInDBFS);
 
 	// Draw the knob
 	painter.drawPixmap((width() - m_knob.width()) / 2, knobPosY() - m_knob.height(), m_knob);
 }
 
-void Fader::paintLevels(QPaintEvent* ev, QPainter& painter, bool linear)
+void Fader::paintLevels(QPainter& painter, bool linear)
 {
 	std::function<float(float value)> mapper = [this](float value) { return ampToDbfs(qMax(0.0001f, value)); };
 

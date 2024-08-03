@@ -667,8 +667,7 @@ bool MicrotunerConfig::saveKeymapToFile()
 	return true;
 }
 
-
-void MicrotunerConfig::saveSettings(QDomDocument &document, QDomElement &element)
+void MicrotunerConfig::saveSettings(QDomDocument&, QDomElement &element)
 {
 	MainWindow::saveWidgetState(this, element);
 }

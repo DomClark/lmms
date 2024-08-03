@@ -102,7 +102,7 @@ int notEmpty(const std::vector<float> &spectrum)
  *
  * return -1 on error
  */
-int precomputeWindow(float *window, unsigned int length, FFTWindow type, bool normalized)
+int precomputeWindow(float *window, unsigned int length, FFTWindow type)
 {
 	if (window == nullptr) {return -1;}
 

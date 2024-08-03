@@ -103,7 +103,7 @@ void StepRecorderWidget::setStepsLength(TimePos stepsLength)
 	m_stepsLength = stepsLength;
 }
 
-void StepRecorderWidget::paintEvent(QPaintEvent * pe)
+void StepRecorderWidget::paintEvent(QPaintEvent*)
 {
 	QPainter painter(this);
 

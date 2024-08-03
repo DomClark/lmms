@@ -47,8 +47,7 @@ Interval::Interval(uint32_t numerator, uint32_t denominator) :
 	m_ratio = static_cast<float>(m_numerator) / m_denominator;
 }
 
-
-void Interval::saveSettings(QDomDocument &document, QDomElement &element)
+void Interval::saveSettings(QDomDocument&, QDomElement& element)
 {
 	if (m_denominator > 0)
 	{

@@ -108,9 +108,7 @@ void PatternEditor::removeViewsForPattern(int pattern)
 	}
 }
 
-
-
-void PatternEditor::saveSettings(QDomDocument& doc, QDomElement& element)
+void PatternEditor::saveSettings(QDomDocument&, QDomElement& element)
 {
 	MainWindow::saveWidgetState( parentWidget(), element );
 }

@@ -113,10 +113,7 @@ void AudioDevice::registerPort( AudioPort * )
 {
 }
 
-
-
-
-void AudioDevice::unregisterPort( AudioPort * _port )
+void AudioDevice::unregisterPort(AudioPort*)
 {
 }
 

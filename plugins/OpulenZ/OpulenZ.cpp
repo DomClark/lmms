@@ -292,7 +292,7 @@ int OpulenzInstrument::pushVoice(int v) {
 	return i;
 }
 
-bool OpulenzInstrument::handleMidiEvent( const MidiEvent& event, const TimePos& time, f_cnt_t offset )
+bool OpulenzInstrument::handleMidiEvent(const MidiEvent& event, const TimePos&, f_cnt_t)
 {
 	emulatorMutex.lock();
 

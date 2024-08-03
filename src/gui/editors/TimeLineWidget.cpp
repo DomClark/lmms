@@ -405,7 +405,7 @@ void TimeLineWidget::mouseMoveEvent( QMouseEvent* event )
 	}
 }
 
-void TimeLineWidget::mouseReleaseEvent( QMouseEvent* event )
+void TimeLineWidget::mouseReleaseEvent(QMouseEvent*)
 {
 	delete m_hint;
 	m_hint = nullptr;

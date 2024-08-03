@@ -198,10 +198,7 @@ void SampleClipView::mouseDoubleClickEvent( QMouseEvent * )
 	}
 }
 
-
-
-
-void SampleClipView::paintEvent( QPaintEvent * pe )
+void SampleClipView::paintEvent(QPaintEvent*)
 {
 	QPainter painter( this );
 

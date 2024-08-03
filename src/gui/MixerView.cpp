@@ -266,8 +266,7 @@ void MixerView::updateMaxChannelSelector()
 	}
 }
 
-
-void MixerView::saveSettings(QDomDocument& doc, QDomElement& domElement)
+void MixerView::saveSettings(QDomDocument&, QDomElement& domElement)
 {
 	MainWindow::saveWidgetState(this, domElement);
 }

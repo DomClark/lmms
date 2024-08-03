@@ -146,8 +146,7 @@ BitInvader::BitInvader( InstrumentTrack * _instrument_track ) :
 	connect( &m_sampleLength, SIGNAL( dataChanged() ),
 			this, SLOT( lengthChanged() ), Qt::DirectConnection );
 
-	connect( &m_graph, SIGNAL( samplesChanged( int, int ) ),
-			this, SLOT( samplesChanged( int, int ) ) );
+	connect(&m_graph, &graphModel::samplesChanged, this, &BitInvader::samplesChanged);
 }
 
 
@@ -219,10 +218,7 @@ void BitInvader::lengthChanged()
 	normalize();
 }
 
-
-
-
-void BitInvader::samplesChanged( int _begin, int _end )
+void BitInvader::samplesChanged()
 {
 	normalize();
 	//engine::getSongEditor()->setModified();
@@ -428,9 +424,7 @@ BitInvaderView::BitInvaderView( Instrument * _instrument,
 	connect( m_interpolationToggle, SIGNAL( toggled( bool ) ),
 			this, SLOT ( interpolationToggled( bool ) ) );
 
-	connect( m_normalizeToggle, SIGNAL( toggled( bool ) ),
-			this, SLOT ( normalizeToggled( bool ) ) );
-
+	connect(m_normalizeToggle, &QPushButton::toggled, this, &BitInvaderView::normalizeToggled);
 }
 
 
@@ -529,10 +523,7 @@ void BitInvaderView::interpolationToggled( bool value )
 	Engine::getSong()->setModified();
 }
 
-
-
-
-void BitInvaderView::normalizeToggled( bool value )
+void BitInvaderView::normalizeToggled()
 {
 	Engine::getSong()->setModified();
 }

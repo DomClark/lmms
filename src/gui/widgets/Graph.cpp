@@ -443,10 +443,9 @@ void Graph::modelChanged()
 			this, SLOT(updateGraph()));
 }
 
-
-void Graph::updateGraph( int _startPos, int _endPos )
+void Graph::updateGraph(int, int)
 {
-	// Can optimize by only drawing changed position
+	// TODO: optimize by only drawing changed position
 	update();
 }
 

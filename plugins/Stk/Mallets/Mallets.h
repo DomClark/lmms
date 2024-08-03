@@ -74,7 +74,6 @@ public:
 	// TubeBell
 	MalletsSynth( const StkFloat _pitch,
 			const StkFloat _velocity,
-			const int _preset,
 			const StkFloat _control1,
 			const StkFloat _control2,
 			const StkFloat _control4,

@@ -65,12 +65,8 @@ public slots:
 protected slots:
 
 	void accept() override;
-	void reject() override;
 
 protected:
-
-	void setBankProg( int iBank, int iProg );
-
 	QTreeWidgetItem * findBankItem( int iBank );
 	QTreeWidgetItem * findProgItem( int iProg );
 

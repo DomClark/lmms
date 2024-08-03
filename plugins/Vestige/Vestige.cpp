@@ -410,10 +410,7 @@ void VestigeInstrument::play( SampleFrame* _buf )
 	m_pluginMutex.unlock();
 }
 
-
-
-
-bool VestigeInstrument::handleMidiEvent( const MidiEvent& event, const TimePos& time, f_cnt_t offset )
+bool VestigeInstrument::handleMidiEvent(const MidiEvent& event, const TimePos&, f_cnt_t offset)
 {
 	m_pluginMutex.lock();
 	if( m_plugin != nullptr )

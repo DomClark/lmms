@@ -158,8 +158,7 @@ void ControllerView::renameController()
 	}
 }
 
-
-void ControllerView::mouseDoubleClickEvent( QMouseEvent * event )
+void ControllerView::mouseDoubleClickEvent(QMouseEvent*)
 {
 	renameController();
 }

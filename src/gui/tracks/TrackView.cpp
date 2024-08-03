@@ -112,18 +112,7 @@ TrackView::TrackView( Track * track, TrackContainerView * tcv ) :
 	m_trackContainerView->addTrackView( this );
 }
 
-
-
-
-
-
-
-
-/*! \brief Resize this track View.
- *
- *  \param re the Resize Event to handle.
- */
-void TrackView::resizeEvent( QResizeEvent * re )
+void TrackView::resizeEvent(QResizeEvent*)
 {
 	if( ConfigManager::inst()->value( "ui",
 					  "compacttrackbuttons" ).toInt() )
@@ -408,14 +397,7 @@ void TrackView::wheelEvent(QWheelEvent* we)
 	}
 }
 
-
-
-
-/*! \brief Repaint this track View.
- *
- *  \param pe the PaintEvent to start.
- */
-void TrackView::paintEvent( QPaintEvent * pe )
+void TrackView::paintEvent(QPaintEvent*)
 {
 	QStyleOption opt;
 	opt.initFrom( this );

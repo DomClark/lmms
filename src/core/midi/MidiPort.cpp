@@ -47,7 +47,7 @@ MidiPort::MidiPort( const QString& name,
 					MidiEventProcessor* eventProcessor,
 					Model* parent,
 					Mode mode ) :
-	Model( parent ),
+	Model{parent, name},
 	m_readablePortsMenu( nullptr ),
 	m_writablePortsMenu( nullptr ),
 	m_midiClient( client ),

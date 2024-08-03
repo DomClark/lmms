@@ -99,10 +99,7 @@ float EqHandle::yPixelToGain(float y , int h, float pixelPerUnitHeight )
 	return ( ( h * 0.5 ) - y ) / pixelPerUnitHeight;
 }
 
-
-
-
-void EqHandle::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget )
+void EqHandle::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
 	painter->setRenderHint( QPainter::Antialiasing, true );
 	if ( m_mousePressed )
@@ -588,18 +585,12 @@ void EqHandle::wheelEvent( QGraphicsSceneWheelEvent *wevent )
 	wevent->accept();
 }
 
-
-
-
-void EqHandle::hoverEnterEvent( QGraphicsSceneHoverEvent *hevent )
+void EqHandle::hoverEnterEvent(QGraphicsSceneHoverEvent*)
 {
 	setMouseHover( true );
 }
 
-
-
-
-void EqHandle::hoverLeaveEvent( QGraphicsSceneHoverEvent *hevent )
+void EqHandle::hoverLeaveEvent(QGraphicsSceneHoverEvent*)
 {
 	setMouseHover( false );
 }
@@ -668,10 +659,7 @@ QRectF EqCurve::boundingRect() const
 	return QRect( 0, 0, m_width, m_heigth );
 }
 
-
-
-
-void EqCurve::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget )
+void EqCurve::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
 	painter->setRenderHint( QPainter::Antialiasing, true );
 	if( m_modelChanged )

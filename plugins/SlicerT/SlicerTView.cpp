@@ -175,7 +175,7 @@ void SlicerTView::dropEvent(QDropEvent* de)
 	de->ignore();
 }
 
-void SlicerTView::paintEvent(QPaintEvent* pe)
+void SlicerTView::paintEvent(QPaintEvent*)
 {
 	QPainter brush(this);
 	brush.setPen(QColor(255, 255, 255));

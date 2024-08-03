@@ -44,6 +44,7 @@ Plugin::Descriptor VSTBASE_EXPORT vstbase_plugin_descriptor =
 	Plugin::Type::Library,
 	nullptr,
 	nullptr,
+	nullptr
 } ;
 
 }

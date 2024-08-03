@@ -62,9 +62,8 @@ VectorView::VectorView(VecControls *controls, LocklessRingBuffer<SampleFrame> *i
 #endif
 }
 
-
 // Compose and draw all the content; called by Qt.
-void VectorView::paintEvent(QPaintEvent *event)
+void VectorView::paintEvent(QPaintEvent*)
 {
 #ifdef VEC_DEBUG
 	unsigned int drawTime = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -304,10 +303,9 @@ void VectorView::periodicUpdate()
 	if (m_visible) {update();}
 }
 
-
 // Allow to change color on double-click.
 // More of an Easter egg, to avoid cluttering the interface with non-essential functionality.
-void VectorView::mouseDoubleClickEvent(QMouseEvent *event)
+void VectorView::mouseDoubleClickEvent(QMouseEvent*)
 {
 	auto colorDialog = new ColorChooser(m_controls->m_colorFG, this);
 	if (colorDialog->exec())

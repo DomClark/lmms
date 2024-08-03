@@ -48,7 +48,7 @@ PatternClip::PatternClip(Track* track) :
 	setAutoResize( false );
 }
 
-void PatternClip::saveSettings(QDomDocument& doc, QDomElement& element)
+void PatternClip::saveSettings(QDomDocument&, QDomElement& element)
 {
 	element.setAttribute( "name", name() );
 	if( element.parentNode().nodeName() == "clipboard" )

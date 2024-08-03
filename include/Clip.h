@@ -105,7 +105,7 @@ public:
 		m_autoResize = r;
 	}
 
-	inline const bool getAutoResize() const
+	bool getAutoResize() const
 	{
 		return m_autoResize;
 	}

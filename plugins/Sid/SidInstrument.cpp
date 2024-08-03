@@ -415,7 +415,6 @@ void SidInstrument::playNote( NotePlayHandle * _n,
 		printf("!!!Not enough samples\n");
 	}
 
-	// loop backwards to avoid overwriting data in the short-to-float conversion
 	for (auto frame = std::size_t{0}; frame < frames; ++frame)
 	{
 		sample_t s = float(buf[frame])/32768.0;

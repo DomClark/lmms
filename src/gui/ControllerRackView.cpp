@@ -91,11 +91,7 @@ ControllerRackView::ControllerRackView() :
 	subWin->setMinimumHeight( 200 );
 }
 
-
-
-
-void ControllerRackView::saveSettings( QDomDocument & _doc,
-							QDomElement & _this )
+void ControllerRackView::saveSettings(QDomDocument&, QDomElement& _this)
 {
 	MainWindow::saveWidgetState( this, _this );
 }

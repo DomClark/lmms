@@ -133,7 +133,7 @@ public:
 
 	// sub-classes can re-implement this for receiving all incoming
 	// MIDI-events
-	inline virtual bool handleMidiEvent( const MidiEvent&, const TimePos& = TimePos(), f_cnt_t offset = 0 )
+	virtual bool handleMidiEvent( const MidiEvent&, const TimePos& = TimePos(), f_cnt_t /* offset */ = 0)
 	{
 		return true;
 	}

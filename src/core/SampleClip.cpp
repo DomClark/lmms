@@ -37,7 +37,7 @@
 namespace lmms
 {
 
-SampleClip::SampleClip(Track* _track, Sample sample, bool isPlaying)
+SampleClip::SampleClip(Track* _track, Sample sample)
 	: Clip(_track)
 	, m_sample(std::move(sample))
 	, m_isPlaying(false)
@@ -83,12 +83,12 @@ SampleClip::SampleClip(Track* _track, Sample sample, bool isPlaying)
 }
 
 SampleClip::SampleClip(Track* track)
-	: SampleClip(track, Sample(), false)
+	: SampleClip(track, Sample())
 {
 }
 
 SampleClip::SampleClip(const SampleClip& orig) :
-	SampleClip(orig.getTrack(), orig.m_sample, orig.m_isPlaying)
+	SampleClip(orig.getTrack(), orig.m_sample)
 {
 }
 
@@ -253,7 +253,7 @@ void SampleClip::setSamplePlayLength(f_cnt_t length)
 
 
 
-void SampleClip::saveSettings( QDomDocument & _doc, QDomElement & _this )
+void SampleClip::saveSettings(QDomDocument&, QDomElement& _this)
 {
 	if( _this.parentNode().nodeName() == "clipboard" )
 	{

@@ -97,10 +97,7 @@ XyPad::XyPad(QWidget *parent, FloatModel *xModel, FloatModel *yModel) :
 	connect( m_yModel, SIGNAL( dataChanged() ) , this, SLOT( update() ) );
 }
 
-
-
-
-void XyPad::paintEvent(QPaintEvent *event)
+void XyPad::paintEvent(QPaintEvent*)
 {
 	QPainter painter( this );
 		//Draw Frequecy maker lines
@@ -118,18 +115,12 @@ void XyPad::paintEvent(QPaintEvent *event)
 		painter.drawPoint( xPos, yPos );
 }
 
-
-
-
-void XyPad::mousePressEvent(QMouseEvent *event)
+void XyPad::mousePressEvent(QMouseEvent*)
 {
 	m_acceptInput = true;
 }
 
-
-
-
-void XyPad::mouseReleaseEvent(QMouseEvent *event)
+void XyPad::mouseReleaseEvent(QMouseEvent*)
 {
 	m_acceptInput = false;
 }

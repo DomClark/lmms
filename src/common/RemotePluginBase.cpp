@@ -131,12 +131,7 @@ RemotePluginBase::message RemotePluginBase::receiveMessage()
 	return m;
 }
 
-
-
-
-RemotePluginBase::message RemotePluginBase::waitForMessage(
-							const message & _wm,
-							bool _busy_waiting)
+RemotePluginBase::message RemotePluginBase::waitForMessage(const message& _wm, [[maybe_unused]] bool _busy_waiting)
 {
 #ifndef BUILD_REMOTE_PLUGIN_CLIENT
 	if (_busy_waiting)

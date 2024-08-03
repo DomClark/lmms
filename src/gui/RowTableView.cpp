@@ -133,6 +133,7 @@ void RowTableView::keyPressEvent( QKeyEvent * event )
 			{
 				QTableView::keyPressEvent( event );
 			}
+			[[fallthrough]];
 		default:
 			QTableView::keyPressEvent( event );
 	}

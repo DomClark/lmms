@@ -356,6 +356,7 @@ void InstrumentTrack::processInEvent( const MidiEvent& event, const TimePos& tim
 				eventHandled = true;
 				break;
 			}
+			[[fallthrough]];
 
 		case MidiNoteOff:
 			if( m_notes[event.key()] != nullptr )

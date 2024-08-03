@@ -73,7 +73,7 @@ class LMMS_EXPORT Knob : public FloatModelEditorBase
 	
 	Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
 
-	void initUi( const QString & _name ); //!< to be called by ctors
+	void initUi(); //!< to be called by ctors
 	void onKnobNumUpdated(); //!< to be called when you updated @a m_knobNum
 
 public:
@@ -126,7 +126,7 @@ private:
 
 	int angleFromValue( float value, float minValue, float maxValue, float totalAngle ) const
 	{
-		return static_cast<int>( ( value - 0.5 * ( minValue + maxValue ) ) / ( maxValue - minValue ) * m_totalAngle ) % 360;
+		return static_cast<int>((value - 0.5 * (minValue + maxValue)) / (maxValue - minValue) * totalAngle) % 360;
 	}
 
 	QString m_label;

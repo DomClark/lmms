@@ -140,8 +140,7 @@ public:
 		LocalZynAddSubFx::processMidiEvent( event );
 	}
 
-
-	void process( const SampleFrame* _in, SampleFrame* _out ) override
+	void process(const SampleFrame*, SampleFrame* _out) override
 	{
 		LocalZynAddSubFx::processAudio( _out );
 	}

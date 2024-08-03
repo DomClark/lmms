@@ -68,18 +68,15 @@ void LedCheckBox::setText( const QString &s )
 	onTextUpdated();
 }
 
-
-
-
-void LedCheckBox::paintEvent( QPaintEvent * pe )
+void LedCheckBox::paintEvent(QPaintEvent*)
 {
 	if (!m_legacyMode)
 	{
-		paintNonLegacy(pe);
+		paintNonLegacy();
 	}
 	else
 	{
-		paintLegacy(pe);
+		paintLegacy();
 	}
 }
 
@@ -111,7 +108,7 @@ void LedCheckBox::onTextUpdated()
 	setFixedSize(width, height);
 }
 
-void LedCheckBox::paintLegacy(QPaintEvent * pe)
+void LedCheckBox::paintLegacy()
 {
 	QPainter p( this );
 	p.setFont(adjustedToPixelSize(font(), 10));
@@ -124,7 +121,7 @@ void LedCheckBox::paintLegacy(QPaintEvent * pe)
 	p.drawText(m_ledOffPixmap.width() + 3, 10, text());
 }
 
-void LedCheckBox::paintNonLegacy(QPaintEvent * pe)
+void LedCheckBox::paintNonLegacy()
 {
 	QPainter p(this);
 

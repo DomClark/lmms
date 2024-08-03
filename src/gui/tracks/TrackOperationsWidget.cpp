@@ -151,21 +151,7 @@ void TrackOperationsWidget::mousePressEvent( QMouseEvent * me )
 	}
 }
 
-
-
-
-/*! \brief Repaint the trackOperationsWidget
- *
- *  If we're not moving, and in the Pattern Editor, then turn
- *  automation on or off depending on its previous state and show
- *  ourselves.
- *
- *  Otherwise, hide ourselves.
- *
- *  \todo Flesh this out a bit - is it correct?
- *  \param pe The paint event to respond to
- */
-void TrackOperationsWidget::paintEvent( QPaintEvent * pe )
+void TrackOperationsWidget::paintEvent(QPaintEvent*)
 {
 	QPainter p( this );
 

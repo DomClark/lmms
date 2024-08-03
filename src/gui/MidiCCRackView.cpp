@@ -126,7 +126,7 @@ void MidiCCRackView::renameWindow()
 	setWindowTitle(tr("MIDI CC Rack - %1").arg(m_track->name()));
 }
 
-void MidiCCRackView::saveSettings(QDomDocument & doc, QDomElement & parent)
+void MidiCCRackView::saveSettings(QDomDocument&, QDomElement&)
 {
 }
 

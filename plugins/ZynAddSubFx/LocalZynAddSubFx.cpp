@@ -242,6 +242,7 @@ void LocalZynAddSubFx::processMidiEvent( const MidiEvent& event )
 				m_master->noteOn( event.channel(), event.key(), event.velocity() );
 				break;
 			}
+			[[fallthrough]];
 		case MidiNoteOff:
 			if( event.key() < 0 || event.key() > MidiMaxKey )
 			{

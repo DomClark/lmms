@@ -123,12 +123,12 @@ public:
 		}
 	}
 
-	inline const bool enabled()
+	bool enabled()
 	{
 		return m_isEnabled;
 	}
 
-	inline const bool isOutput()
+	bool isOutput()
 	{
 		return m_isOutput;
 	}

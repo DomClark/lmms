@@ -1717,8 +1717,7 @@ int RemoteVstPlugin::updateInOutCount()
  * - audioMasterOpenFileSelector: show QFileDialog?
  */
 intptr_t RemoteVstPlugin::hostCallback( AEffect * _effect, int32_t _opcode,
-					int32_t _index, intptr_t _value,
-						void * _ptr, float _opt )
+					int32_t _index, intptr_t _value, void * _ptr, float)
 {
 	static VstTimeInfo _timeInfo;
 #ifdef DEBUG_CALLBACKS

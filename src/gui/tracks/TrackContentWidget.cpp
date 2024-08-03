@@ -612,14 +612,7 @@ void TrackContentWidget::mouseReleaseEvent( QMouseEvent * me )
 	QWidget::mouseReleaseEvent(me);
 }
 
-
-
-
-/*! \brief Repaint the trackContentWidget on command
- *
- * \param pe the Paint Event to respond to
- */
-void TrackContentWidget::paintEvent( QPaintEvent * pe )
+void TrackContentWidget::paintEvent(QPaintEvent*)
 {
 	// Assume even-pixels-per-bar. Makes sense, should be like this anyways
 	const TrackContainerView * tcv = m_trackView->trackContainerView();

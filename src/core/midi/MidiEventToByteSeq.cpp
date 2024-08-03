@@ -62,7 +62,7 @@ std::size_t writeToByteSeq(
 				// MIDI streams, but here only proper Note Off messages
 				// are allowed."
 				data[0] = MidiNoteOff | (ev.channel() & 0x0F);
-				// nobreak
+				[[fallthrough]];
 			}
 
 		case MidiNoteOff:

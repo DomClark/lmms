@@ -71,10 +71,7 @@ public:
 					Origin origin = Origin::MidiClip );
 	~NotePlayHandle() override;
 
-	void * operator new ( size_t size, void * p )
-	{
-		return p;
-	}
+	void* operator new(size_t, void* p) { return p; }
 
 	void setVolume( volume_t volume ) override;
 	void setPanning( panning_t panning ) override;

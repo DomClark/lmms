@@ -69,10 +69,7 @@ void MidiController::updateName()
 			arg( m_midiPort.inputController() ) );
 }
 
-
-
-
-void MidiController::processInEvent(const MidiEvent& event, const TimePos& time, f_cnt_t offset)
+void MidiController::processInEvent(const MidiEvent& event, const TimePos&, f_cnt_t)
 {
 	switch(event.type())
 	{
@@ -138,10 +135,7 @@ QString MidiController::nodeName() const
 	return( "Midicontroller" );
 }
 
-
-
-
-gui::ControllerDialog* MidiController::createDialog( QWidget * _parent )
+gui::ControllerDialog* MidiController::createDialog(QWidget*)
 {
 	return nullptr;
 }

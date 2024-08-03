@@ -731,8 +731,7 @@ void Lb302Synth::initSlide()
 	}
 }
 
-
-void Lb302Synth::playNote( NotePlayHandle * _n, SampleFrame* _working_buffer )
+void Lb302Synth::playNote(NotePlayHandle* _n, SampleFrame*)
 {
 	if( _n->isMasterNote() || ( _n->hasParent() && _n->isReleased() ) )
 	{

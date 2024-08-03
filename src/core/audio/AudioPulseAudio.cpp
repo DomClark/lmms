@@ -110,7 +110,7 @@ void AudioPulseAudio::stopProcessing()
 
 
 /* This routine is called whenever the stream state changes */
-static void stream_state_callback( pa_stream *s, void * userdata )
+static void stream_state_callback(pa_stream* s, void*)
 {
 	switch( pa_stream_get_state( s ) )
 	{
@@ -243,10 +243,7 @@ void AudioPulseAudio::run()
 	pa_mainloop_free( mainLoop );
 }
 
-
-
-
-void AudioPulseAudio::streamWriteCallback( pa_stream *s, size_t length )
+void AudioPulseAudio::streamWriteCallback(pa_stream*, size_t length)
 {
 	const fpp_t fpp = audioEngine()->framesPerPeriod();
 	auto temp = new SampleFrame[fpp];

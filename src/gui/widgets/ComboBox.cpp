@@ -157,10 +157,7 @@ void ComboBox::mousePressEvent( QMouseEvent* event )
 	}
 }
 
-
-
-
-void ComboBox::paintEvent( QPaintEvent * _pe )
+void ComboBox::paintEvent(QPaintEvent*)
 {
 	QPainter p( this );
 

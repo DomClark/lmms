@@ -107,7 +107,7 @@ static void host_ui_parameter_changed(NativeHostHandle handle, uint32_t index, f
     handlePtr->handleUiParameterChanged(index, value);
 }
 
-static void host_ui_custom_data_changed(NativeHostHandle handle, const char* key, const char* value)
+static void host_ui_custom_data_changed(NativeHostHandle, const char*, const char*)
 {
     // unused
 }
@@ -286,7 +286,7 @@ void CarlaInstrument::handleUiClosed()
 }
 
 intptr_t CarlaInstrument::handleDispatcher(const NativeHostDispatcherOpcode opcode, const int32_t index,
-	const intptr_t value, void* const ptr, const float opt)
+	const intptr_t value, void*, float)
 {
     intptr_t ret = 0;
 

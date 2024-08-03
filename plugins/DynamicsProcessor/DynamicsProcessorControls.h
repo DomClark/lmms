@@ -71,7 +71,7 @@ public:
 
 
 private slots:
-	void samplesChanged( int, int );
+	void samplesChanged();
 	void sampleRateChanged();
 
 	void resetClicked();

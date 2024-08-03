@@ -117,7 +117,7 @@ private:
 	void wheelEvent(QWheelEvent* ev) override;
 	void paintEvent(QPaintEvent* ev) override;
 
-	void paintLevels(QPaintEvent* ev, QPainter& painter, bool linear = false);
+	void paintLevels(QPainter& painter, bool linear = false);
 
 	int knobPosY() const
 	{

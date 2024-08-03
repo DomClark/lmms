@@ -253,9 +253,7 @@ bool Controller::hasModel( const Model * m ) const
 	return false;
 }
 
-
-
-void Controller::saveSettings( QDomDocument & _doc, QDomElement & _this )
+void Controller::saveSettings(QDomDocument&, QDomElement& _this)
 {
 	_this.setAttribute( "type", static_cast<int>(type()) );
 	_this.setAttribute( "name", name() );

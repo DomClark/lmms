@@ -70,8 +70,7 @@ SampleTrack::~SampleTrack()
 
 
 
-bool SampleTrack::play( const TimePos & _start, const fpp_t _frames,
-					const f_cnt_t _offset, int _clip_num )
+bool SampleTrack::play( const TimePos & _start, fpp_t, const f_cnt_t _offset, int _clip_num)
 {
 	m_audioPort.effects()->startRunning();
 	bool played_a_note = false; // will be return variable

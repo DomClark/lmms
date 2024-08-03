@@ -52,7 +52,7 @@ static int JackMidiProcessCallback(jack_nframes_t nframes, void *arg)
 	return (0);
 }
 
-static void JackMidiShutdown(void *arg)
+static void JackMidiShutdown(void*)
 {
         //: When JACK(JACK Audio Connection Kit) disconnects, it will show the following message (title)
 	QString msg_short = MidiJack::tr("JACK server down");
@@ -209,13 +209,13 @@ void MidiJack::JackMidiRead(jack_nframes_t nframes)
    once working the output port needs to be enabled in the constructor
  */
 
-void MidiJack::sendByte( const unsigned char c )
+void MidiJack::sendByte(unsigned char)
 {
 	//m_midiDev.putChar( c );
 }
 
 // we write data to jack
-void MidiJack::JackMidiWrite(jack_nframes_t nframes)
+void MidiJack::JackMidiWrite(jack_nframes_t)
 {
 	// TODO: write midi data to jack port
 }

@@ -79,10 +79,7 @@ void AutomatableButton::update()
 	QPushButton::update();
 }
 
-
-
-
-void AutomatableButton::contextMenuEvent( QContextMenuEvent * _me )
+void AutomatableButton::contextMenuEvent(QContextMenuEvent*)
 {
 	// for the case, the user clicked right while pressing left mouse-
 	// button, the context-menu appears while mouse-cursor is still hidden

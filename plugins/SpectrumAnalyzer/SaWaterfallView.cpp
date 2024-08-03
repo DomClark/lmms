@@ -73,11 +73,10 @@ SaWaterfallView::SaWaterfallView(SaControls *controls, SaProcessor *processor, Q
 	#endif
 }
 
-
 // Compose and draw all the content; called by Qt.
 // Not as performance sensitive as SaSpectrumView, most of the processing is
 // done directly in SaProcessor.
-void SaWaterfallView::paintEvent(QPaintEvent *event)
+void SaWaterfallView::paintEvent(QPaintEvent*)
 {
 	#ifdef SA_DEBUG
 		unsigned int draw_time = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -337,9 +336,8 @@ void SaWaterfallView::mousePressEvent(QMouseEvent *event)
 						event->localPos().y() - (event->windowPos().y() - (long)event->windowPos().y()));
 }
 
-
 // Handle resize event: rebuild time labels
-void SaWaterfallView::resizeEvent(QResizeEvent *event)
+void SaWaterfallView::resizeEvent(QResizeEvent*)
 {
 	m_timeTics = makeTimeTics();
 }

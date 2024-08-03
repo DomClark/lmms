@@ -55,8 +55,7 @@ public:
 	void processInEvent( const MidiEvent & _me,
 					const TimePos & _time, f_cnt_t offset = 0 ) override;
 
-	void processOutEvent( const MidiEvent& _me,
-					const TimePos & _time, f_cnt_t offset = 0 ) override
+	void processOutEvent(const MidiEvent&, const TimePos&, f_cnt_t) override
 	{
 		// No output yet
 	}

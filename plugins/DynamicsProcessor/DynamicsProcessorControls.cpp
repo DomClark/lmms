@@ -49,8 +49,7 @@ DynProcControls::DynProcControls( DynProcEffect * _eff ) :
 	m_wavegraphModel( 0.0f, 1.0f, 200, this ),
 	m_stereomodeModel( 0, 0, 2, this, tr( "Stereo mode" ) )
 {
-	connect( &m_wavegraphModel, SIGNAL( samplesChanged( int, int ) ),
-			this, SLOT( samplesChanged( int, int ) ) );
+	connect(&m_wavegraphModel, &graphModel::samplesChanged, this, &DynProcControls::samplesChanged);
 	connect( Engine::audioEngine(), SIGNAL( sampleRateChanged() ), this, SLOT( sampleRateChanged() ) );
 
 	setDefaultShape();
@@ -63,8 +62,7 @@ void DynProcControls::sampleRateChanged()
 	m_effect->m_needsUpdate = true;
 }
 
-
-void DynProcControls::samplesChanged( int _begin, int _end)
+void DynProcControls::samplesChanged()
 {
 	Engine::getSong()->setModified();
 }

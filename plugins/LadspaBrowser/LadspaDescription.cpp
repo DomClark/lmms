@@ -171,10 +171,7 @@ void LadspaDescription::rowChanged( int _pluginIndex )
 	update( m_currentSelection );
 }
 
-
-
-
-void LadspaDescription::onDoubleClicked( QListWidgetItem * _item )
+void LadspaDescription::onDoubleClicked(QListWidgetItem*)
 {
 	emit( doubleClicked( m_currentSelection ) );
 }

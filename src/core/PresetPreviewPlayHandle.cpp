@@ -203,10 +203,7 @@ PresetPreviewPlayHandle::~PresetPreviewPlayHandle()
 	Engine::audioEngine()->doneChangeInModel();
 }
 
-
-
-
-void PresetPreviewPlayHandle::play( SampleFrame* _working_buffer )
+void PresetPreviewPlayHandle::play(SampleFrame*)
 {
 	// Do nothing; the preview instrument is played by m_previewNote, which
 	// has been added to the audio engine

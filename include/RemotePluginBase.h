@@ -618,6 +618,7 @@ private:
 				case -1:
 					fprintf( stderr,
 						"Error while reading.\n" );
+					[[fallthrough]];
 				case 0:
 					invalidate();
 					memset( _buf, 0, _len );
@@ -644,6 +645,7 @@ private:
 				case -1:
 					fprintf( stderr,
 						"Error while writing.\n" );
+					[[fallthrough]];
 				case 0:
 					invalidate();
 					return;

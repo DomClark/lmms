@@ -49,11 +49,8 @@ RenameDialog::RenameDialog( QString & _string ) :
 							SLOT(accept()));
 }
 
-
-
-
-
-void RenameDialog::resizeEvent (QResizeEvent * event) {
+void RenameDialog::resizeEvent(QResizeEvent*)
+{
 	m_stringLE->setGeometry ( 10, 5, width() - 20, 20 );	
 }
 

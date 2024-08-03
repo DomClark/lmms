@@ -266,10 +266,7 @@ void VstPlugin::loadSettings( const QDomElement & _this )
 	}
 }
 
-
-
-
-void VstPlugin::saveSettings( QDomDocument & _doc, QDomElement & _this )
+void VstPlugin::saveSettings(QDomDocument&, QDomElement & _this )
 {
 	if ( m_embedMethod != "none" )
 	{

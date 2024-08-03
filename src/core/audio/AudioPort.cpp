@@ -34,14 +34,14 @@
 namespace lmms
 {
 
-AudioPort::AudioPort( const QString & _name, bool _has_effect_chain,
+AudioPort::AudioPort(const QString& name, bool _has_effect_chain,
 		FloatModel * volumeModel, FloatModel * panningModel,
 		BoolModel * mutedModel ) :
 	m_bufferUsage( false ),
 	m_portBuffer( BufferManager::acquire() ),
 	m_extOutputEnabled( false ),
 	m_nextMixerChannel( 0 ),
-	m_name( "unnamed port" ),
+	m_name{name},
 	m_effects( _has_effect_chain ? new EffectChain( nullptr ) : nullptr ),
 	m_volumeModel( volumeModel ),
 	m_panningModel( panningModel ),

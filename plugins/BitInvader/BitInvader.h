@@ -94,7 +94,7 @@ public:
 
 protected slots:
 	void lengthChanged();
-	void samplesChanged( int, int );
+	void samplesChanged();
 
 	void normalize();
 
@@ -128,7 +128,7 @@ protected slots:
 	//void sampleSizeChanged( float _new_sample_length );
 
 	void interpolationToggled( bool value );
-	void normalizeToggled( bool value );
+	void normalizeToggled();
 
 	void sinWaveClicked();
 	void triangleWaveClicked();

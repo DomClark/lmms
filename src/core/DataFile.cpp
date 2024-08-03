@@ -1612,7 +1612,7 @@ void DataFile::upgrade_1_3_0()
 
 					else if (plugin == "amPitchshift")
 					{
-						auto fn = [&](QDomElement& port, int num, QList<QDomElement>&, QList<QDomElement>& removeList)
+						auto fn = [&](QDomElement& port, int num, QList<QDomElement>&, QList<QDomElement>&)
 						{
 							switch (num)
 							{

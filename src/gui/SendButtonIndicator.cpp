@@ -19,7 +19,7 @@ SendButtonIndicator:: SendButtonIndicator(QWidget* parent, MixerChannelView* own
 	setPixmap(m_qpmOff);
 }
 
-void SendButtonIndicator::mousePressEvent(QMouseEvent* e)
+void SendButtonIndicator::mousePressEvent(QMouseEvent*)
 {
 	Mixer* mix = Engine::mixer();
 	int from = m_mv->currentMixerChannel()->channelIndex();

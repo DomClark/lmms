@@ -49,7 +49,7 @@ Knob::Knob( KnobType _knob_num, QWidget * _parent, const QString & _name ) :
 	m_textColor( 255, 255, 255 ),
 	m_knobNum( _knob_num )
 {
-	initUi( _name );
+	initUi();
 }
 
 Knob::Knob( QWidget * _parent, const QString & _name ) :
@@ -57,10 +57,7 @@ Knob::Knob( QWidget * _parent, const QString & _name ) :
 {
 }
 
-
-
-
-void Knob::initUi( const QString & _name )
+void Knob::initUi()
 {
 	onKnobNumUpdated();
 	setTotalAngle( 270.0f );
@@ -450,7 +447,7 @@ void Knob::drawKnob( QPainter * _p )
 	_p->drawImage( 0, 0, m_cache );
 }
 
-void Knob::paintEvent( QPaintEvent * _me )
+void Knob::paintEvent(QPaintEvent*)
 {
 	QPainter p( this );
 

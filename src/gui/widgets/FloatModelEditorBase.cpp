@@ -232,14 +232,12 @@ void FloatModelEditorBase::mouseReleaseEvent(QMouseEvent* event)
 	s_textFloat->hide();
 }
 
-
-void FloatModelEditorBase::enterEvent(QEvent *event)
+void FloatModelEditorBase::enterEvent(QEvent*)
 {
 	showTextFloat(700, 2000);
 }
 
-
-void FloatModelEditorBase::leaveEvent(QEvent *event)
+void FloatModelEditorBase::leaveEvent(QEvent*)
 {
 	s_textFloat->hide();
 }

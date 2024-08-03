@@ -83,7 +83,7 @@ int LMMS_EXPORT notEmpty(const std::vector<float> &spectrum);
  *
  *	@return -1 on error
  */
-int LMMS_EXPORT precomputeWindow(float *window, unsigned int length, FFTWindow type, bool normalized = true);
+int LMMS_EXPORT precomputeWindow(float *window, unsigned int length, FFTWindow type);
 
 
 /**	Compute absolute values of complex_buffer, save to absspec_buffer.

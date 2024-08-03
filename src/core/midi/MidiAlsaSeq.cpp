@@ -245,6 +245,7 @@ void MidiAlsaSeq::applyPortMode( MidiPort * _port )
 		case MidiPort::Mode::Duplex:
 			caps[1] |= SND_SEQ_PORT_CAP_READ |
 						SND_SEQ_PORT_CAP_SUBS_READ;
+			[[fallthrough]];
 
 		case MidiPort::Mode::Input:
 			caps[0] |= SND_SEQ_PORT_CAP_WRITE |

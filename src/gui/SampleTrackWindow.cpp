@@ -253,9 +253,7 @@ void SampleTrackWindow::closeEvent(QCloseEvent* ce)
 	m_stv->m_tlb->setChecked(false);
 }
 
-
-
-void SampleTrackWindow::saveSettings(QDomDocument& doc, QDomElement & element)
+void SampleTrackWindow::saveSettings(QDomDocument&, QDomElement & element)
 {
 	MainWindow::saveWidgetState(this, element);
 	Q_UNUSED(element)

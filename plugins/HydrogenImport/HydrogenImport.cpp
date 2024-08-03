@@ -329,7 +329,8 @@ bool HydrogenImport::readSong()
 	}
 	return true;
 }
-bool HydrogenImport::tryImport( TrackContainer* tc )
+
+bool HydrogenImport::tryImport(TrackContainer*)
 {
 	if( openFile() == false )
 	{

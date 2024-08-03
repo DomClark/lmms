@@ -43,7 +43,7 @@ PositionLine::PositionLine(QWidget* parent) :
 	setAttribute(Qt::WA_TransparentForMouseEvents);
 }
 
-void PositionLine::paintEvent(QPaintEvent* pe)
+void PositionLine::paintEvent(QPaintEvent*)
 {
 	QPainter p(this);
 	auto c = QColor(m_lineColor);

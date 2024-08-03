@@ -1348,10 +1348,7 @@ void MainWindow::keyReleaseEvent( QKeyEvent * _ke )
 	}
 }
 
-
-
-
-void MainWindow::timerEvent( QTimerEvent * _te)
+void MainWindow::timerEvent(QTimerEvent*)
 {
 	emit periodicUpdate();
 }

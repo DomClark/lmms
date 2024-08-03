@@ -126,12 +126,7 @@ TrackContainerView::~TrackContainerView()
 	}
 }
 
-
-
-
-
-void TrackContainerView::saveSettings( QDomDocument & _doc,
-							QDomElement & _this )
+void TrackContainerView::saveSettings(QDomDocument&, QDomElement& _this)
 {
 	MainWindow::saveWidgetState( this, _this );
 }

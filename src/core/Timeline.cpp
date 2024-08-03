@@ -62,7 +62,7 @@ void Timeline::setStopBehaviour(StopBehaviour behaviour)
 	}
 }
 
-void Timeline::saveSettings(QDomDocument& doc, QDomElement& element)
+void Timeline::saveSettings(QDomDocument&, QDomElement& element)
 {
 	element.setAttribute("lp0pos", static_cast<int>(loopBegin()));
 	element.setAttribute("lp1pos", static_cast<int>(loopEnd()));

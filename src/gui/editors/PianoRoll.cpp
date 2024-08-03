@@ -554,6 +554,7 @@ void PianoRoll::markSemiTone(SemiToneMarkerAction i, bool fromMenu)
 		case SemiToneMarkerAction::MarkCurrentScale:
 			chord = & InstrumentFunctionNoteStacking::ChordTable::getInstance()
 					.getScaleByName( m_scaleModel.currentText() );
+			[[fallthrough]];
 		case SemiToneMarkerAction::MarkCurrentChord:
 		{
 			if( ! chord )
@@ -2151,9 +2152,7 @@ void PianoRoll::cancelKnifeAction()
 	update();
 }
 
-
-
-void PianoRoll::testPlayKey( int key, int velocity, int pan )
+void PianoRoll::testPlayKey(int key, int velocity)
 {
 	Piano *pianoModel = m_midiClip->instrumentTrack()->pianoModel();
 	// turn off old key
@@ -2397,7 +2396,7 @@ void PianoRoll::mouseMoveEvent( QMouseEvent * me )
 			&& me->buttons() & Qt::LeftButton )
 		{
 			// clicked on a key, play the note
-			testPlayKey(key_num, ((float) x) / ((float) m_whiteKeyWidth) * MidiDefaultVelocity, 0);
+			testPlayKey(key_num, ((float) x) / ((float) m_whiteKeyWidth) * MidiDefaultVelocity);
 			update();
 			return;
 		}
@@ -2998,10 +2997,7 @@ void PianoRoll::dragNotes(int x, int y, bool alt, bool shift, bool ctrl)
 	Engine::getSong()->setModified();
 }
 
-
-
-
-void PianoRoll::paintEvent(QPaintEvent * pe )
+void PianoRoll::paintEvent(QPaintEvent*)
 {
 	bool drawNoteNames = ConfigManager::inst()->value( "ui", "printnotelabels").toInt();
 
@@ -3148,6 +3144,7 @@ void PianoRoll::paintEvent(QPaintEvent * pe )
 				{
 					return m_whiteKeySmallHeight;
 				}
+				[[fallthrough]];
 			case KeyType::Black:
 				return m_blackKeyHeight;
 			}
@@ -3734,7 +3731,7 @@ void PianoRoll::updateScrollbars()
 }
 
 // responsible for moving/resizing scrollbars after window-resizing
-void PianoRoll::resizeEvent(QResizeEvent* re)
+void PianoRoll::resizeEvent(QResizeEvent*)
 {
 	updatePositionLineHeight();
 	updateScrollbars();

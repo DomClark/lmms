@@ -194,10 +194,7 @@ void AutomationEditor::setCurrentClip(AutomationClip * new_clip )
 	emit currentClipChanged();
 }
 
-
-
-
-void AutomationEditor::saveSettings(QDomDocument & doc, QDomElement & dom_parent)
+void AutomationEditor::saveSettings(QDomDocument&, QDomElement& dom_parent)
 {
 	MainWindow::saveWidgetState( parentWidget(), dom_parent );
 }
@@ -1027,7 +1024,7 @@ void AutomationEditor::setGhostSample(SampleClip* newGhostSample)
 	m_renderSample = true;
 }
 
-void AutomationEditor::paintEvent(QPaintEvent * pe )
+void AutomationEditor::paintEvent(QPaintEvent*)
 {
 	QStyleOption opt;
 	opt.initFrom( this );
@@ -1523,11 +1520,8 @@ void AutomationEditor::centerTopBottomScroll()
 	m_topBottomScroll->setValue(pos);
 }
 
-
-
-
 // responsible for moving/resizing scrollbars after window-resizing
-void AutomationEditor::resizeEvent(QResizeEvent * re)
+void AutomationEditor::resizeEvent(QResizeEvent*)
 {
 	m_leftRightScroll->setGeometry( VALUES_WIDTH, height() - SCROLLBAR_SIZE,
 							width() - VALUES_WIDTH,

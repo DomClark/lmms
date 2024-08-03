@@ -61,9 +61,8 @@ Plugin::Descriptor PLUGIN_EXPORT ladspabrowser_plugin_descriptor =
 	nullptr,
 } ;
 
-
 // necessary for getting instance out of shared lib
-PLUGIN_EXPORT Plugin * lmms_plugin_main( Model * _parent, void * _data )
+PLUGIN_EXPORT Plugin* lmms_plugin_main(Model*, void*)
 {
 	return new LadspaBrowser;
 }

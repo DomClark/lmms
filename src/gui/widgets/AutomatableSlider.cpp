@@ -48,13 +48,7 @@ AutomatableSlider::AutomatableSlider( QWidget * _parent,
 					this, SLOT(moveSlider(int)));
 }
 
-
-
-
-
-
-
-void AutomatableSlider::contextMenuEvent( QContextMenuEvent * _me )
+void AutomatableSlider::contextMenuEvent(QContextMenuEvent*)
 {
 	CaptionMenu contextMenu( model()->displayName() );
 	addDefaultActions( &contextMenu );

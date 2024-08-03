@@ -17,6 +17,7 @@ option(USE_WERROR "Treat compiler warnings as errors" OFF)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 	set(COMPILE_ERROR_FLAGS
 		"-Wall" # Enable most warnings by default
+		"-Wextra" # Enable even more warnings by default
 	)
 	set(THIRD_PARTY_COMPILE_ERROR_FLAGS
 		"-w" # Disable all warnings

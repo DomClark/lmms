@@ -77,7 +77,7 @@ public:
 	~EqParameterWidget() override;
 	QList<EqHandle*> m_handleList;
 
-	const int bandCount()
+	int bandCount()
 	{
 		return 8;
 	}

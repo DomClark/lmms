@@ -123,8 +123,7 @@ void LcdFloatSpinBox::update()
 	QWidget::update();
 }
 
-
-void LcdFloatSpinBox::contextMenuEvent(QContextMenuEvent* event)
+void LcdFloatSpinBox::contextMenuEvent(QContextMenuEvent*)
 {
 	CaptionMenu contextMenu(model()->displayName());
 	addDefaultActions(&contextMenu);

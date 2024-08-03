@@ -357,7 +357,7 @@ void PatchesDialog::bankChanged ()
 
 
 // Program change slot.
-void PatchesDialog::progChanged (QTreeWidgetItem * _curr, QTreeWidgetItem * _prev)
+void PatchesDialog::progChanged(QTreeWidgetItem* _curr, QTreeWidgetItem*)
 {
 	if (m_pSynth == nullptr || _curr == nullptr)
 		return;

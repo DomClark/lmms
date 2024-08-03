@@ -413,7 +413,7 @@ void SlicerTWaveform::wheelEvent(QWheelEvent* we)
 	updateUI();
 }
 
-void SlicerTWaveform::paintEvent(QPaintEvent* pe)
+void SlicerTWaveform::paintEvent(QPaintEvent*)
 {
 	QPainter p(this);
 	p.drawPixmap(s_seekerHorMargin, 0, m_seekerWaveform);

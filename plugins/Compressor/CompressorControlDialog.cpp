@@ -589,9 +589,7 @@ void CompressorControlDialog::drawMiscPixmap()
 	m_controls->m_effect->m_redrawThreshold = false;
 }
 
-
-
-void CompressorControlDialog::paintEvent(QPaintEvent *event)
+void CompressorControlDialog::paintEvent(QPaintEvent*)
 {
 	if (!isVisible())
 	{
@@ -629,8 +627,7 @@ inline int CompressorControlDialog::dbfsToXPoint(float inDbfs)
 	return m_kneeWindowSizeY - dbfsToYPoint(inDbfs);
 }
 
-
-void CompressorControlDialog::resizeEvent(QResizeEvent *event)
+void CompressorControlDialog::resizeEvent(QResizeEvent*)
 {
 	resetCompressorView();
 }
@@ -679,8 +676,7 @@ void CompressorControlDialog::drawGraph()
 	m_p.end();
 }
 
-
-void CompressorControlDialog::mouseDoubleClickEvent(QMouseEvent* event)
+void CompressorControlDialog::mouseDoubleClickEvent(QMouseEvent*)
 {
 	setGuiVisibility(!m_guiVisibility);
 }

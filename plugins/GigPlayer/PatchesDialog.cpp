@@ -216,21 +216,6 @@ bool PatchesDialog::validateForm()
 	return bValid;
 }
 
-
-
-
-// Realize a bank-program selection preset.
-void PatchesDialog::setBankProg( int iBank, int iProg )
-{
-	if( m_pSynth == nullptr )
-	{
-		return;
-	}
-}
-
-
-
-
 // Validate form fields and accept it valid.
 void PatchesDialog::accept()
 {
@@ -239,9 +224,6 @@ void PatchesDialog::accept()
 		// Unload from current selected dialog items.
 		int iBank = ( m_bankListView->currentItem() )->text( 0 ).toInt();
 		int iProg = ( m_progListView->currentItem() )->text( 0 ).toInt();
-
-		// And set it right away...
-		setBankProg( iBank, iProg );
 
 		if( m_dirty > 0 )
 		{
@@ -255,25 +237,6 @@ void PatchesDialog::accept()
 		QDialog::accept();
 	}
 }
-
-
-
-
-// Reject settings (Cancel button slot).
-void PatchesDialog::reject()
-{
-	// Reset selection to initial selection, if applicable...
-	if( m_dirty > 0 )
-	{
-		setBankProg( m_bankModel->value(), m_progModel->value() );
-	}
-
-	// Done (hopefully nothing).
-	QDialog::reject();
-}
-
-
-
 
 // Find the bank item of given bank number id.
 QTreeWidgetItem * PatchesDialog::findBankItem( int iBank )
@@ -379,7 +342,7 @@ void PatchesDialog::bankChanged()
 
 
 // Program change slot.
-void PatchesDialog::progChanged( QTreeWidgetItem * curr, QTreeWidgetItem * prev )
+void PatchesDialog::progChanged(QTreeWidgetItem* curr, QTreeWidgetItem*)
 {
 	if( m_pSynth == nullptr || curr == nullptr )
 	{
@@ -389,13 +352,6 @@ void PatchesDialog::progChanged( QTreeWidgetItem * curr, QTreeWidgetItem * prev 
 	// Which preview state...
 	if( validateForm() )
 	{
-		// Set current selection.
-		int iBank = ( m_bankListView->currentItem() )->text( 0 ).toInt();
-		int iProg = curr->text( 0 ).toInt();
-
-		// And set it right away...
-		setBankProg( iBank, iProg );
-
 		// Now we're dirty nuff.
 		m_dirty++;
 	}

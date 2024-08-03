@@ -39,8 +39,7 @@ AutomationTrack::AutomationTrack( TrackContainer* tc, bool _hidden ) :
 	setName( tr( "Automation track" ) );
 }
 
-bool AutomationTrack::play( const TimePos & time_start, const fpp_t _frames,
-							const f_cnt_t _frame_base, int _clip_num )
+bool AutomationTrack::play(const TimePos&, fpp_t, f_cnt_t, int)
 {
 	return false;
 }
@@ -63,18 +62,11 @@ Clip* AutomationTrack::createClip(const TimePos & pos)
 	return p;
 }
 
-
-
-
-void AutomationTrack::saveTrackSpecificSettings( QDomDocument & _doc,
-							QDomElement & _this )
+void AutomationTrack::saveTrackSpecificSettings(QDomDocument&, QDomElement&)
 {
 }
 
-
-
-
-void AutomationTrack::loadTrackSpecificSettings( const QDomElement & _this )
+void AutomationTrack::loadTrackSpecificSettings(const QDomElement&)
 {
 	// just in case something somehow wrent wrong...
 	if( type() == Type::HiddenAutomation )

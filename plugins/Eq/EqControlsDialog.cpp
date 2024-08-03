@@ -63,14 +63,30 @@ EqControlsDialog::EqControlsDialog( EqControls *controls ) :
 	m_parameterWidget = new EqParameterWidget( this , controls );
 	m_parameterWidget->move( 26, 17 );
 
-	setBand( 0, &controls->m_hpActiveModel, &controls->m_hpFeqModel, &controls->m_hpResModel, 0, QColor(255 ,255, 255), tr( "HP" ) ,0,0, &controls->m_hp12Model, &controls->m_hp24Model, &controls->m_hp48Model,0,0,0);
-	setBand( 1, &controls->m_lowShelfActiveModel, &controls->m_lowShelfFreqModel, &controls->m_lowShelfResModel, &controls->m_lowShelfGainModel, QColor(255 ,255, 255), tr( "Low-shelf" ), &controls->m_lowShelfPeakL , &controls->m_lowShelfPeakR,0,0,0,0,0,0 );
-	setBand( 2, &controls->m_para1ActiveModel, &controls->m_para1FreqModel, &controls->m_para1BwModel, &controls->m_para1GainModel, QColor(255 ,255, 255), tr( "Peak 1" ), &controls->m_para1PeakL, &controls->m_para1PeakR,0,0,0,0,0,0 );
-	setBand( 3, &controls->m_para2ActiveModel, &controls->m_para2FreqModel, &controls->m_para2BwModel, &controls->m_para2GainModel, QColor(255 ,255, 255), tr( "Peak 2" ), &controls->m_para2PeakL, &controls->m_para2PeakR,0,0,0,0,0,0 );
-	setBand( 4, &controls->m_para3ActiveModel, &controls->m_para3FreqModel, &controls->m_para3BwModel, &controls->m_para3GainModel, QColor(255 ,255, 255), tr( "Peak 3" ), &controls->m_para3PeakL, &controls->m_para3PeakR,0,0,0,0,0,0 );
-	setBand( 5, &controls->m_para4ActiveModel, &controls->m_para4FreqModel, &controls->m_para4BwModel, &controls->m_para4GainModel, QColor(255 ,255, 255), tr( "Peak 4" ), &controls->m_para4PeakL, &controls->m_para4PeakR,0,0,0,0,0,0 );
-	setBand( 6, &controls->m_highShelfActiveModel, &controls->m_highShelfFreqModel, &controls->m_highShelfResModel, &controls->m_highShelfGainModel, QColor(255 ,255, 255), tr( "High-shelf" ), &controls->m_highShelfPeakL, &controls->m_highShelfPeakR,0,0,0,0,0,0 );
-	setBand( 7, &controls->m_lpActiveModel, &controls->m_lpFreqModel, &controls->m_lpResModel, 0, QColor(255 ,255, 255), tr( "LP" ) ,0,0,0,0,0, &controls->m_lp12Model, &controls->m_lp24Model, &controls->m_lp48Model);
+	setBand(0, &controls->m_hpActiveModel, &controls->m_hpFeqModel, &controls->m_hpResModel,
+		nullptr, QColor(255 ,255, 255), nullptr, nullptr,
+		&controls->m_hp12Model, &controls->m_hp24Model, &controls->m_hp48Model, nullptr, nullptr, nullptr);
+	setBand(1, &controls->m_lowShelfActiveModel, &controls->m_lowShelfFreqModel, &controls->m_lowShelfResModel,
+		&controls->m_lowShelfGainModel, QColor(255 ,255, 255), &controls->m_lowShelfPeakL, &controls->m_lowShelfPeakR,
+		nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+	setBand(2, &controls->m_para1ActiveModel, &controls->m_para1FreqModel, &controls->m_para1BwModel,
+		&controls->m_para1GainModel, QColor(255 ,255, 255), &controls->m_para1PeakL, &controls->m_para1PeakR,
+		nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+	setBand(3, &controls->m_para2ActiveModel, &controls->m_para2FreqModel, &controls->m_para2BwModel,
+		&controls->m_para2GainModel, QColor(255 ,255, 255), &controls->m_para2PeakL, &controls->m_para2PeakR,
+		nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+	setBand(4, &controls->m_para3ActiveModel, &controls->m_para3FreqModel, &controls->m_para3BwModel,
+		&controls->m_para3GainModel, QColor(255 ,255, 255), &controls->m_para3PeakL, &controls->m_para3PeakR,
+		nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+	setBand(5, &controls->m_para4ActiveModel, &controls->m_para4FreqModel, &controls->m_para4BwModel,
+		&controls->m_para4GainModel, QColor(255 ,255, 255), &controls->m_para4PeakL, &controls->m_para4PeakR,
+		nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+	setBand(6, &controls->m_highShelfActiveModel, &controls->m_highShelfFreqModel, &controls->m_highShelfResModel,
+		&controls->m_highShelfGainModel, QColor(255 ,255, 255), &controls->m_highShelfPeakL, &controls->m_highShelfPeakR,
+		nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+	setBand(7, &controls->m_lpActiveModel, &controls->m_lpFreqModel, &controls->m_lpResModel,
+		nullptr, QColor(255 ,255, 255), nullptr, nullptr,
+		nullptr, nullptr, nullptr, &controls->m_lp12Model, &controls->m_lp24Model, &controls->m_lp48Model);
 
 	QSize const faderSize(23, 80);
 
@@ -211,17 +227,16 @@ EqControlsDialog::EqControlsDialog( EqControls *controls ) :
 	hpBtnGrp->setModel(&m_controls->m_hpTypeModel);
 }
 
-
-
-
-void EqControlsDialog::mouseDoubleClickEvent(QMouseEvent *event)
+void EqControlsDialog::mouseDoubleClickEvent(QMouseEvent*)
 {
 	m_originalHeight = parentWidget()->height() == 283 ? m_originalHeight : parentWidget()->height() ;
 	parentWidget()->setFixedHeight( parentWidget()->height() == m_originalHeight ? 283 : m_originalHeight  );
 	update();
 }
 
-EqBand* EqControlsDialog::setBand(int index, BoolModel* active, FloatModel* freq, FloatModel* res, FloatModel* gain, QColor color, QString name, float* peakL, float* peakR, BoolModel* hp12, BoolModel* hp24, BoolModel* hp48, BoolModel* lp12, BoolModel* lp24, BoolModel* lp48)
+EqBand* EqControlsDialog::setBand(int index, BoolModel* active, FloatModel* freq, FloatModel* res, FloatModel* gain,
+	QColor color, float* peakL, float* peakR, BoolModel* hp12, BoolModel* hp24, BoolModel* hp48, BoolModel* lp12,
+	BoolModel* lp24, BoolModel* lp48)
 {
 	EqBand *filterModels = m_parameterWidget->getBandModels( index );
 	filterModels->active = active;

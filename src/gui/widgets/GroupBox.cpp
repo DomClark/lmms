@@ -92,10 +92,7 @@ void GroupBox::mousePressEvent( QMouseEvent * _me )
 	}
 }
 
-
-
-
-void GroupBox::paintEvent( QPaintEvent * pe )
+void GroupBox::paintEvent(QPaintEvent*)
 {
 	QPainter p( this );
 

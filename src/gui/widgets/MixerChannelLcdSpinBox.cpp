@@ -38,7 +38,7 @@ void MixerChannelLcdSpinBox::setTrackView(TrackView * tv)
 	m_tv = tv;
 }
 
-void MixerChannelLcdSpinBox::mouseDoubleClickEvent(QMouseEvent* event)
+void MixerChannelLcdSpinBox::mouseDoubleClickEvent(QMouseEvent*)
 {
 	getGUI()->mixerView()->setCurrentMixerChannel(model()->value());
 
@@ -48,7 +48,7 @@ void MixerChannelLcdSpinBox::mouseDoubleClickEvent(QMouseEvent* event)
 	//engine::getMixerView()->raise();
 }
 
-void MixerChannelLcdSpinBox::contextMenuEvent(QContextMenuEvent* event)
+void MixerChannelLcdSpinBox::contextMenuEvent(QContextMenuEvent*)
 {
 	// for the case, the user clicked right while pressing left mouse-
 	// button, the context-menu appears while mouse-cursor is still hidden

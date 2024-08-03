@@ -269,10 +269,7 @@ SongEditor::SongEditor( Song * song ) :
 	setFocus();
 }
 
-
-
-
-void SongEditor::saveSettings( QDomDocument& doc, QDomElement& element )
+void SongEditor::saveSettings(QDomDocument&, QDomElement& element)
 {
 	MainWindow::saveWidgetState( parentWidget(), element );
 }
@@ -1049,10 +1046,7 @@ void SongEditorWindow::syncEditMode(){
 	m_editModeGroup->checkedAction()->trigger();
 }
 
-
-
-
-void SongEditorWindow::resizeEvent(QResizeEvent *event)
+void SongEditorWindow::resizeEvent(QResizeEvent*)
 {
 	emit resized();
 }

@@ -132,7 +132,7 @@ public:
     Alg_parameter() { attr = "i"; }
     ~Alg_parameter();
     void copy(Alg_parameter *); // copy from another parameter
-    const char attr_type() { return alg_attr_type(attr); }
+    char attr_type() { return alg_attr_type(attr); }
     const char *attr_name() { return alg_attr_name(attr); }
     void set_attr(Alg_attribute a) { attr = a; }
     void show();
@@ -577,7 +577,7 @@ public:
                          while (*ptr++) assert(ptr < fence);
                          get_pad();
                          return s; }
-    void check_input_buffer(long needed) {
+    void check_input_buffer([[maybe_unused]] long needed) {
         assert(get_posn() + needed <= len); }
 } *Serial_read_buffer_ptr;
 
@@ -1101,7 +1101,6 @@ public:
     // add_event takes a pointer to an event on the heap. The event is not
     // copied, and this Alg_seq becomes the owner and freer of the event.
     void add_event(Alg_event_ptr event, int track_num);
-    void add(Alg_event_ptr event) override { assert(false); } // call add_event instead
     // get the tempo starting at beat
     double get_tempo(double beat);
     bool set_tempo(double bpm, double start_beat, double end_beat);

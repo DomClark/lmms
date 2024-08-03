@@ -88,11 +88,10 @@ SaSpectrumView::SaSpectrumView(SaControls *controls, SaProcessor *processor, QWi
 	#endif
 }
 
-
 // Compose and draw all the content; periodically called by Qt.
 // NOTE: Performance sensitive! If the drawing takes too long, it will drag
 // the FPS down for the entire program! Use SA_DEBUG to display timings.
-void SaSpectrumView::paintEvent(QPaintEvent *event)
+void SaSpectrumView::paintEvent(QPaintEvent*)
 {
 	#ifdef SA_DEBUG
 		int total_time = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -832,9 +831,8 @@ void SaSpectrumView::mousePressEvent(QMouseEvent *event)
 						event->localPos().y() - (event->windowPos().y() - (long)event->windowPos().y()));
 }
 
-
 // Handle resize event: rebuild grid and labels
-void SaSpectrumView::resizeEvent(QResizeEvent *event)
+void SaSpectrumView::resizeEvent(QResizeEvent*)
 {
 	// frequency does not change density with size
 	// amplitude does: rebuild labels

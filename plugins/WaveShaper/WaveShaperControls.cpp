@@ -47,16 +47,12 @@ WaveShaperControls::WaveShaperControls( WaveShaperEffect * _eff ) :
 	m_wavegraphModel( 0.0f, 1.0f, 200, this ),
 	m_clipModel( false, this )
 {
-	connect( &m_wavegraphModel, SIGNAL( samplesChanged( int, int ) ),
-			this, SLOT( samplesChanged( int, int ) ) );
+	connect(&m_wavegraphModel, &graphModel::samplesChanged, this, &WaveShaperControls::samplesChanged);
 
 	setDefaultShape();
 }
 
-
-
-
-void WaveShaperControls::samplesChanged( int _begin, int _end)
+void WaveShaperControls::samplesChanged()
 {
 	Engine::getSong()->setModified();
 }

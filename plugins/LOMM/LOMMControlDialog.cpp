@@ -134,7 +134,7 @@ void LOMMControlDialog::updateDisplay()
 	update();
 }
 
-void LOMMControlDialog::paintEvent(QPaintEvent *event)
+void LOMMControlDialog::paintEvent(QPaintEvent*)
 {
 	if (!isVisible()) { return; }
 

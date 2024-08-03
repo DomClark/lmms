@@ -159,10 +159,7 @@ void TrackLabelButton::mousePressEvent( QMouseEvent * _me )
 	}
 }
 
-
-
-
-void TrackLabelButton::mouseDoubleClickEvent( QMouseEvent * _me )
+void TrackLabelButton::mouseDoubleClickEvent(QMouseEvent*)
 {
 	rename();
 }
@@ -207,8 +204,7 @@ void TrackLabelButton::paintEvent(QPaintEvent* pe)
 	QToolButton::paintEvent(pe);
 }
 
-
-void TrackLabelButton::resizeEvent(QResizeEvent *_re)
+void TrackLabelButton::resizeEvent(QResizeEvent*)
 {
 	setText( elideName( m_trackView->getTrack()->displayName() ) );
 }

@@ -65,7 +65,7 @@ public:
 
 
 private slots:
-	void samplesChanged( int, int );
+	void samplesChanged();
 
 	void resetClicked();
 	void smoothClicked();

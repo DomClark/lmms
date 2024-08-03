@@ -67,13 +67,13 @@ public:
 		return *this;
 	}
 
-	inline const float getInValue() const
+	float getInValue() const
 	{
 		return m_inValue;
 	}
 	void setInValue(float value);
 
-	inline const float getOutValue() const
+	float getOutValue() const
 	{
 		return m_outValue;
 	}
@@ -84,7 +84,7 @@ public:
 	 * @brief Gets the offset between inValue and outValue
 	 * @return Float representing the offset between inValue and outValue
 	 */
-	inline const float getValueOffset() const
+	float getValueOffset() const
 	{
 		return m_outValue - m_inValue;
 	}
@@ -93,7 +93,7 @@ public:
 	 * @brief Gets the tangent of the left side of the node
 	 * @return Float with the tangent from the inValue side
 	 */
-	inline const float getInTangent() const
+	float getInTangent() const
 	{
 		return m_inTangent;
 	}
@@ -111,7 +111,7 @@ public:
 	 * @brief Gets the tangent of the right side of the node
 	 * @return Float with the tangent from the outValue side
 	 */
-	inline const float getOutTangent() const
+	float getOutTangent() const
 	{
 		return m_outTangent;
 	}
@@ -128,7 +128,7 @@ public:
 	/**
 	 * @brief Checks if the tangents from the node are locked
 	 */
-	inline const bool lockedTangents() const
+	bool lockedTangents() const
 	{
 		return m_lockedTangents;
 	}

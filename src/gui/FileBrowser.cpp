@@ -506,8 +506,7 @@ FileBrowserTreeWidget::FileBrowserTreeWidget(QWidget * parent ) :
 	headerItem()->setHidden( true );
 	setSortingEnabled( false );
 
-	connect( this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
-			SLOT(activateListItem(QTreeWidgetItem*,int)));
+	connect(this, &QTreeWidget::itemDoubleClicked, this, &FileBrowserTreeWidget::activateListItem);
 	connect( this, SIGNAL(itemCollapsed(QTreeWidgetItem*)),
 				SLOT(updateDirectory(QTreeWidgetItem*)));
 	connect( this, SIGNAL(itemExpanded(QTreeWidgetItem*)),
@@ -855,10 +854,7 @@ void FileBrowserTreeWidget::mouseMoveEvent( QMouseEvent * me )
 	}
 }
 
-
-
-
-void FileBrowserTreeWidget::mouseReleaseEvent(QMouseEvent * me )
+void FileBrowserTreeWidget::mouseReleaseEvent(QMouseEvent*)
 {
 	m_mousePressed = false;
 
@@ -922,11 +918,7 @@ void FileBrowserTreeWidget::handleFile(FileItem * f, InstrumentTrack * it)
 	Engine::audioEngine()->doneChangeInModel();
 }
 
-
-
-
-void FileBrowserTreeWidget::activateListItem(QTreeWidgetItem * item,
-								int column )
+void FileBrowserTreeWidget::activateListItem(QTreeWidgetItem* item)
 {
 	auto f = dynamic_cast<FileItem*>(item);
 	if( f == nullptr )

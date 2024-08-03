@@ -62,8 +62,7 @@ public:
 
 	~AutoDetectMidiController() override = default;
 
-
-	void processInEvent( const MidiEvent& event, const TimePos& time, f_cnt_t offset = 0 ) override
+	void processInEvent(const MidiEvent& event, const TimePos&, f_cnt_t) override
 	{
 		if( event.type() == MidiControlChange &&
 			( m_midiPort.inputChannel() == 0 || m_midiPort.inputChannel() == event.channel() + 1 ) )

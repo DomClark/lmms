@@ -203,10 +203,7 @@ EqSpectrumView::EqSpectrumView(EqAnalyser *b, QWidget *_parent) :
 	}
 }
 
-
-
-
-void EqSpectrumView::paintEvent(QPaintEvent *event)
+void EqSpectrumView::paintEvent(QPaintEvent*)
 {
 	const float energy = m_analyser->getEnergy();
 	if (energy <= 0. && m_peakSum <= 0) { return; }

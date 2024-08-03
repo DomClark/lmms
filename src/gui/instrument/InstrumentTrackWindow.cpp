@@ -596,10 +596,7 @@ void InstrumentTrackWindow::dropEvent( QDropEvent* event )
 	}
 }
 
-
-
-
-void InstrumentTrackWindow::saveSettings( QDomDocument& doc, QDomElement & thisElement )
+void InstrumentTrackWindow::saveSettings(QDomDocument&, QDomElement& thisElement)
 {
 	thisElement.setAttribute( "tab", m_tabWidget->activeTab() );
 	MainWindow::saveWidgetState( this, thisElement );

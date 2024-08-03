@@ -101,12 +101,12 @@ void AudioFileProcessorWaveView::isPlaying(f_cnt_t current_frame)
 	update();
 }
 
-void AudioFileProcessorWaveView::enterEvent(QEvent * e)
+void AudioFileProcessorWaveView::enterEvent(QEvent*)
 {
 	updateCursor();
 }
 
-void AudioFileProcessorWaveView::leaveEvent(QEvent * e)
+void AudioFileProcessorWaveView::leaveEvent(QEvent*)
 {
 	updateCursor();
 }
@@ -189,7 +189,7 @@ void AudioFileProcessorWaveView::wheelEvent(QWheelEvent * we)
 	update();
 }
 
-void AudioFileProcessorWaveView::paintEvent(QPaintEvent * pe)
+void AudioFileProcessorWaveView::paintEvent(QPaintEvent*)
 {
 	QPainter p(this);
 

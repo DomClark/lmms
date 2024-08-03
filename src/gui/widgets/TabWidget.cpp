@@ -208,10 +208,7 @@ void TabWidget::resizeEvent(QResizeEvent*)
 	}
 }
 
-
-
-
-void TabWidget::paintEvent(QPaintEvent* pe)
+void TabWidget::paintEvent(QPaintEvent*)
 {
 	QPainter p(this);
 	p.setFont(adjustedToPixelSize(font(), 10));

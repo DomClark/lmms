@@ -78,9 +78,8 @@ private:
 	void initUi( LedColor _color ); //!< to be called by ctors
 
 	void onTextUpdated(); //!< to be called when you updated @a m_text
-	void paintLegacy(QPaintEvent * p);
-	void paintNonLegacy(QPaintEvent * p);
-
+	void paintLegacy();
+	void paintNonLegacy();
 } ;
 
 
