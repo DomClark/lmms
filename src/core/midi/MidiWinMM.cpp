@@ -49,10 +49,7 @@ MidiWinMM::~MidiWinMM()
 	closeDevices();
 }
 
-
-
-
-void MidiWinMM::processOutEvent( const MidiEvent& event, const TimePos& time, const MidiPort* port )
+void MidiWinMM::processOutEvent(const MidiEvent& event, const TimePos&, const MidiPort* port)
 {
 	const DWORD shortMsg = ( event.type() + event.channel() ) +
 				( ( event.param( 0 ) & 0xff ) << 8 ) +
@@ -171,10 +168,7 @@ void MidiWinMM::subscribeWritablePort( MidiPort* port, const QString& dest, bool
 	}
 }
 
-
-
-
-void WINAPI CALLBACK MidiWinMM::inputCallback( HMIDIIN hm, UINT msg, DWORD_PTR inst, DWORD_PTR param1, DWORD_PTR param2 )
+void WINAPI CALLBACK MidiWinMM::inputCallback(HMIDIIN hm, UINT msg, DWORD_PTR inst, DWORD_PTR param1, DWORD_PTR)
 {
 	if( msg == MIM_DATA )
 	{
