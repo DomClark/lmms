@@ -966,6 +966,16 @@ bool RemoteVstPlugin::load( const std::string & _plugin_file )
 
 	using mainEntryPointer = AEffect* (VST_CALL_CONV*) (audioMasterCallback);
 #ifndef NATIVE_LINUX_VST
+	// GCC emits a warning when casting the return value of `GetProcAddress`
+	// (which has type `FARPROC`) to `mainEntryPointer`, since the function
+	// pointer types are incompatible. This warning would be useful if `FARPROC`
+	// were the actual type of the function, but here it's used as a generic
+	// return type, and `mainEntryPointer` is the correct type. As such, the
+	// warning can be suppressed.
+#ifdef __GNUC__
+#	pragma GCC diagnostic push
+#	pragma GCC diagnostic ignored "-Wcast-function-type"
+#endif
 	mainEntryPointer mainEntry = (mainEntryPointer)
 				GetProcAddress( m_libInst, "VSTPluginMain" );
 	if( mainEntry == nullptr )
@@ -978,6 +988,9 @@ bool RemoteVstPlugin::load( const std::string & _plugin_file )
 		mainEntry = (mainEntryPointer)
 				GetProcAddress( m_libInst, "main" );
 	}
+#ifdef __GNUC__
+#	pragma GCC diagnostic pop
+#endif
 #else
 	mainEntryPointer mainEntry = (mainEntryPointer) dlsym(m_libInst, "VSTPluginMain");
 	if( mainEntry == nullptr )
