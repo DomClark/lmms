@@ -159,7 +159,7 @@ static int init_delay_line(sp_revsc *p, sp_revsc_dl *lp, int n)
     return SP_OK;
 }
 
-int sp_revsc_compute(sp_data*, sp_revsc* p, SPFLOAT* in1, SPFLOAT* in2, SPFLOAT* out1, SPFLOAT* out2)
+int sp_revsc_compute(sp_revsc* p, SPFLOAT* in1, SPFLOAT* in2, SPFLOAT* out1, SPFLOAT* out2)
 {
     SPFLOAT ainL, ainR, aoutL, aoutR;
     SPFLOAT vm1, v0, v1, v2, am1, a0, a1, a2, frac;

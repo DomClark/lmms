@@ -27,7 +27,7 @@ int sp_dcblock_destroy(sp_dcblock **p)
     return SP_OK;
 }
 
-int sp_dcblock_init(sp_data*, sp_dcblock* p, int oversampling)
+int sp_dcblock_init(sp_dcblock* p, int oversampling)
 {
     p->outputs = 0.0;
     p->inputs = 0.0;
@@ -37,7 +37,7 @@ int sp_dcblock_init(sp_data*, sp_dcblock* p, int oversampling)
     return SP_OK;
 }
 
-int sp_dcblock_compute(sp_data*, sp_dcblock* p, SPFLOAT* in, SPFLOAT* out)
+int sp_dcblock_compute(sp_dcblock* p, SPFLOAT* in, SPFLOAT* out)
 {
     SPFLOAT gain = p->gain;
     SPFLOAT outputs = p->outputs;

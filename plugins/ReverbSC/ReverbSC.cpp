@@ -63,8 +63,8 @@ ReverbSCEffect::ReverbSCEffect( Model* parent, const Descriptor::SubPluginFeatur
 	sp_dcblock_create(&dcblk[0]);
 	sp_dcblock_create(&dcblk[1]);
 
-	sp_dcblock_init(sp, dcblk[0], 1);
-	sp_dcblock_init(sp, dcblk[1], 1);
+	sp_dcblock_init(dcblk[0], 1);
+	sp_dcblock_init(dcblk[1], 1);
 }
 
 ReverbSCEffect::~ReverbSCEffect()
@@ -113,10 +113,9 @@ bool ReverbSCEffect::processAudioBuffer( SampleFrame* buf, const fpp_t frames )
 			colorBuf->values()[f]
 			: m_reverbSCControls.m_colorModel.value());
 
-
-		sp_revsc_compute(sp, revsc, &s[0], &s[1], &tmpL, &tmpR);
-		sp_dcblock_compute(sp, dcblk[0], &tmpL, &dcblkL);
-		sp_dcblock_compute(sp, dcblk[1], &tmpR, &dcblkR);
+		sp_revsc_compute(revsc, &s[0], &s[1], &tmpL, &tmpR);
+		sp_dcblock_compute(dcblk[0], &tmpL, &dcblkL);
+		sp_dcblock_compute(dcblk[1], &tmpR, &dcblkR);
 		buf[f][0] = d * buf[f][0] + w * dcblkL * outGain;
 		buf[f][1] = d * buf[f][1] + w * dcblkR * outGain;
 
@@ -145,8 +144,8 @@ void ReverbSCEffect::changeSampleRate()
 	sp_dcblock_create(&dcblk[0]);
 	sp_dcblock_create(&dcblk[1]);
 
-	sp_dcblock_init(sp, dcblk[0], 1);
-	sp_dcblock_init(sp, dcblk[1], 1);
+	sp_dcblock_init(dcblk[0], 1);
+	sp_dcblock_init(dcblk[1], 1);
 	mutex.unlock();
 }
 
