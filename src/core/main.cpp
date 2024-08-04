@@ -118,8 +118,7 @@ extern "C" _CRTIMP errno_t __cdecl freopen_s(FILE** _File,
 #endif
 
 // For qInstallMessageHandler
-void consoleMessageHandler(QtMsgType type,
-	const QMessageLogContext &context, const QString &msg)
+void consoleMessageHandler(QtMsgType, const QMessageLogContext&, const QString& msg)
 {
     QByteArray localMsg = msg.toLocal8Bit();
     fprintf(stderr, "%s\n", localMsg.constData());
