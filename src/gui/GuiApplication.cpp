@@ -245,7 +245,8 @@ void GuiApplication::childDestroyed(QObject *obj)
  */
 QFont GuiApplication::getWin32SystemFont()
 {
-	NONCLIENTMETRICS metrics = { sizeof( NONCLIENTMETRICS ) };
+	auto metrics = NONCLIENTMETRICS{};
+	metrics.cbSize = sizeof(NONCLIENTMETRICS);
 	SystemParametersInfo( SPI_GETNONCLIENTMETRICS, sizeof( NONCLIENTMETRICS ), &metrics, 0 );
 	int pointSize = metrics.lfMessageFont.lfHeight;
 	if ( pointSize < 0 )
